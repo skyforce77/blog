@@ -1,0 +1,163 @@
+## CREER UN MODEL ##
+
+Pour appeler un model vous devez vous placer dans une methode d'un controlleur.
+Exemple :
+
+<?php
+class MonController extends Controller {
+
+	public function uneVue(){
+		// ..Code
+		$monModel = new Model('maTable'); //Appel d'une model
+		// ..Code
+		$monModel->close();//Fermeture du model
+	}
+}
+?>
+
+## SELECT ##
+Prototype de la fonction select()
+
+public function Model::select( $champs = array(), $options = array() );
+
+les champs :
+entrez dans un array() le nom des champs sélectionnés SANS le mot clé SELECT. Pour '*' ne mettez rien.
+
+les options possibles :
+'conditions' entrez vos condition SANS le mot clé WHERE
+'limit' mettez vos limit SANS le mot clé LIMIT
+'order' entrez votre condition d'ordre SANS le mot clé ORDER BY
+
+Exemple :
+
+<?php
+class MonController extends Controller {
+
+	public function uneVue(){		
+		$monModel = new Model('maTable'); //Appel d'une model
+		$champs = array('id', 'name', 'DISTINCT email');
+		$condition = array(
+					'conditions' => 'id > 2 AND rank < 100', 
+					'order' => 'id DESC'
+					); 
+		$resultat = $monModel->select($champs, $option);
+		//On passe le résultat a la vue
+		$this->giveVar(compact('resultat')); //Ou giveVar('resultat', $resultat);
+		$monModel->close();//Fermeture du model
+		$this->display('maVue');
+	}
+}
+?>
+
+## INSERT ##
+Prototype de la fonction insert() :
+
+public function Model::insert( $champs = array());
+
+Il suffit de passer un array avec pour clé le nom des champs avec leur valeur
+
+Exemple : 
+
+<?php
+class MonController extends Controller {
+
+	public function uneVue(){		
+		$monModel = new Model('maTable'); //Appel d'une model
+		$monModel->insert(array(
+							'name' => 'patoch',
+							'rank' => 2,
+							'email' => 'patoch.swag@wanadoo.fr'
+							));
+		$monModel->close();//Fermeture du model
+		$this->display('maVue');
+	}
+}
+?>
+
+## UPDATE ##
+Prototype de la fonction update() :
+
+public function Model::update( $champs = array(), $conditions);
+
+Il suffit de passer un array avec pour clé le nom des champs avec leur valeur et une chaine de caractère pour les conditions de remplacement;
+
+Exemple : 
+
+<?php
+class MonController extends Controller {
+
+	public function uneVue(){		
+		$monModel = new Model('maTable'); //Appel d'une model
+		$monModel->update(array(
+							'name' => 'patoch',
+							'rank' => 2,
+							'email' => 'patoch.swag@wanadoo.fr'
+							), 'id' = 2);
+		$monModel->close();//Fermeture du model
+		$this->display('maVue');
+	}
+}
+?>
+
+## DELETE ##
+Prototype de la fonction delete() :
+
+public function Model::delete($conditions);
+
+Il suffit de passer une chaine de caractères avec les conditions de remplacements;
+
+Exemple : 
+
+<?php
+class MonController extends Controller {
+
+	public function uneVue(){		
+		$monModel = new Model('maTable'); //Appel d'une model
+		$monModel->delete('id = 2');
+		$monModel->delete('name = "Yann" OR rank < 8');
+		$monModel->close();//Fermeture du model
+		$this->display('maVue');
+	}
+}
+?>
+
+
+## Les requètes avancés ##
+Permet de faire exécuter sa propre requete SQL.
+
+Exemple : 
+
+<?php
+class MonController extends Controller {
+
+	public function uneVue(){		
+		$monModel = new Model('maTable'); //Appel d'une model
+		/* Il est possible de faire des requètes sur d'autres tables que celle qui a été selectionnée */
+		$monModel->query('SELECT * FROM monAutreTable WHERE id > 1');
+		$monModel->close();//Fermeture du model
+		$this->display('maVue');
+	}
+}
+?>
+
+## Changer de table ##
+Il suffit d'appeler la fonction setTable() qui prend en argument la nouvelle table;
+
+Exemple : 
+
+<?php
+class MonController extends Controller {
+
+	public function uneVue(){		
+		$monModel = new Model('maTable'); //Appel d'une model
+		$monModel->setTable('monAutreTable'); //CHangement de table
+		$monModel->close();//Fermeture du model
+		$this->display('maVue');
+	}
+}
+?>
+
+
+
+
+

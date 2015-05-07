@@ -11,8 +11,13 @@
   				<li class="has-dropdown not-click">
 					<a href="#">Catégories</a>
 					<ul class="dropdown">
-						<li><a href="#">Catégorie 1</a></li>
-						<li><a href="#">Catégorie 2</a></li>
+						<?php 
+							foreach ($categories as $value) {
+								echo '<li><a href="#">'.ucfirst($value['name']).'</a></li>';
+							}
+
+						?>
+						
 					</ul>
 				</li>
   			</ul>
