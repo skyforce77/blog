@@ -1,12 +1,17 @@
 <?php
-require_once(ROOT.'core/helper.php');
+
 
 class Controller{
 	protected $vars = array();
-	protected $view = 'index';
-	protected $layout = 'default';
+	protected $view;
+	protected $layout;
 
-	function display($filename){
+	public function __construct(){
+		$this->view = 'index';
+		$this->layout = 'default';
+	}
+
+	public function display($filename){
 		$layoutContent = "";
 		extract($this->vars);
 

@@ -1,64 +1,116 @@
 <?php 
-define('ROOT', str_replace('index.php', '', '/'));
-require_once(ROOT.'core/config.php');
+
 
 class Model{
 	/* A initialiser dans la classe de la table */
 
-	protected $table;
-	protected $link;
+	private $table;
+	private $link;
 
 
-	public function __construct(){
+	public function __construct($tab){
+		require(ROOT.'core/config.php');
+		$this->table = $tab;
 		try {
-		    $this->link = new PDO('mysql:host='.$DBConf['host'].';dbname='.$DBConf['dbname'].'', $DBConf['user'], $DBConf['password']);		    
+		    $this->link = new PDO('mysql:host='.$DBConfig['host'].';dbname='.$DBConfig['dbname'].'', $DBConfig['user'], $DBConfig['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));		    
+			$this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		} catch (PDOException $e) {
 		    print "Erreur !: " . $e->getMessage() . "<br/>";
+		    $this->link = null;
 		    die();
 		}
 	}
 
-	function query($sql){
-		if($sql != null){
-			$this->link->query($sql);
+	public function query($sql){
+		if($sql != null && $link != null){
+			return $this->link->query($sql);
 		}
+		return null;
 	}
 
-	function save($data){
-		if(isset($data['id']) && !empty($data['id'])){
-			$sql = "UPDATE ".$this->table." SET ";
-			foreach ($data as $key => $value) {
-				if($k!='id')
-					$sql.= "$k='$v'";
+	public function select($champ = array(), $param = array()){
+		$select = "";
+		$conditions = "";
+		$limit = "";
+		$order = "";
+
+		if(is_array($champ) && count($champ)){
+			foreach ($champ as $value) {
+				if(!empty($select))
+					$select .= ", ";
+
+				$select .= $value;
 			}
-			$sql = substr($sql, 0, -1);
-			$sql .= "WHERE id=0".data["id"];
 		}
 		else{
-			unset($data['id']);
-			$sql = "INSERT INTO ".$this->table."(";
-			foreach ($data as $key => $value) {
-				if($k!='id')
-					$sql.= "$k";
+			$select = "*";
+		}
+
+		if(is_array($param) && count($param)){
+			if(array_key_exists('conditions', $param)){
+				$conditions = "WHERE ".$param['conditions']." ";
 			}
-			$sql = substr($sql, 0, -1);
-			$sql .= ") VALUES (";
-			foreach ($data as $value) {
-				$sql .= "'$value'";
+			if(array_key_exists('limit', $param)){
+				$limit = "LIMIT ".$param['limit']." ";
 			}
-			$sql .= ")";
+			if(array_key_exists('order', $param)){
+				$order = "ORDER BY ".$param['order']." ";
+			}
 		}
-		mysqli_query($sql) or die(mysqli_error()."<br> QUERY : ".mysqli_query());
-		if(!isset($data['id'])){
-			$this->id = mysqli_insert_id();			
+
+		$sql = "SELECT ".$select." FROM ".$this->table." ".$conditions.$order.$limit.";";
+		$res = $this->link->query($sql);
+		$return = $res->fetchAll();
+		$res->closeCursor();
+
+		return $return;
+	}
+
+	public function update($arr, $conditions){
+		if(!is_array($arr))
+			return null;
+
+		$set = "";
+		foreach ($arr as $key => $value) {
+			if(!empty($set))
+				$values .= ", ";
+
+			$set .= $key."='".$value."'";
 		}
-		else{
-			$this->id = $data['id'];
+		$sql = "UPDATE ".$this->table." SET ".$set." WHERE ".$conditions.";";
+		$this->link->exec($sql);
+	}
+
+	public function insert($arr){
+		if(!is_array($arr))
+			return null;
+
+		$values = "";
+		$champs = "";
+		foreach ($arr as $k => $v) {
+			if(!empty($values))
+				$values .= ", ";
+			if(!empty($champs))
+				$champs .= ", ";
+
+			$champs .= $k;
+			$values .= "'".$v."'";
 		}
+		$sql = "INSERT INTO ".$this->table." (".$champs.") VALUES (".$values.");";
+		
+		$this->link->exec($sql);
+	}
+
+	public function delete($cond){
+		$sql = "DELETE FROM  ".$this->table." WHERE ".$cond." ;";
+		$this->link->exec($sql);
 	}
 
 	
 	public function setTable($value){
+		$this->table = $value;
+	}
+	public function getTable($value){
 		$this->table = $value;
 	}
 
