@@ -10,7 +10,7 @@ class html{
 	public static function image($link, $options = null){
 		$link = ROOT."webroot/js/".$name;
 		$string = "";
-		if($options != null){
+		if(is_array($options)){
 			foreach ($options as $key => $value){
 				$string .= $string." ".$key."=\"".$value."\"";
 			}
@@ -19,14 +19,26 @@ class html{
 	}
 
 	public static function link($text, $link, $options = null){
-		$link = ROOT."webroot/js/".$name;
-		$string = "";
-		if($options != null){
-			foreach ($options as $key => $value){
+		$string = '';
+		if(is_array($link) && array_key_exists('controller', $link) && array_key_exists('view', $link)){
+			$temp = WEBROOT.$link['controller'].'/'.$link['view'];
+			if(array_key_exists('params', $link)){
+				$temp .= '/'.$link['params'];
+			}
+			$link = $temp;
+		}
+		else{
+			if(strpos($link, 'http://')==false){
+				$link = 'http://'.$link;
+			}
+		}
+		if(is_array($options)){
+			foreach ($options as $key => $value) {
 				$string .= $string." ".$key."=\"".$value."\"";
 			}
 		}
-		return "<script type=\"text/javascript\" src=\"".$link."\" ".$string.">".$text."</script>";
+
+		return '<a href="'.$link.'" '.$string.' >'.$text.'</a>';
 	}
 
 	public static function javascript($name){
@@ -35,9 +47,9 @@ class html{
 	}
 
 	public static function css($name, $options = null){
-		$link = ROOT."webroot/css/".$name;
+		$link = WEBROOT."webroot/css/".$name;
 		$string = "";
-		if($options != null){
+		if(is_array($options)){
 			foreach ($options as $key => $value) {
 				$string .= $string." ".$key."=\"".$value."\"";
 			}
