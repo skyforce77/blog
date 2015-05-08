@@ -22,7 +22,7 @@
 				</li>
   			</ul>
 			<ul class="right">
-				<li><a href="login.php">Accès rédacteur</a></li>
+				<li><a href="Editors/login">Accès rédacteur</a></li>
 			</ul>
 		</section>
 	</nav>
