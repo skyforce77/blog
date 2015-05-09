@@ -1,4 +1,4 @@
-<div class="app-bar">
+<div class="app-bar" data-role="appbar">
 	<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
 	<span class="app-bar-divider"></span>
 	<ul class="app-bar-menu">
@@ -14,6 +14,7 @@
 		</li>
 		<li><?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login')); ?>
 	</ul>
+	<span class="app-bar-pull"></span>
 </div>
 
 <?php
