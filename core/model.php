@@ -9,7 +9,7 @@ class Model{
 
 
 	public function __construct($tab){
-		require(ROOT.'core/config.php');
+		require(ROOT.'/config.php');
 		$this->table = $tab;
 		try {
 		    $this->link = new PDO('mysql:host='.$DBConfig['host'].';dbname='.$DBConfig['dbname'].'', $DBConfig['user'], $DBConfig['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));		    

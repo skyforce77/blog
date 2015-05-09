@@ -12,6 +12,7 @@
 				$_SESSION['editor_password'] = md5($_POST['passwd']);
 			}
 			$this->init();
+
 			//On verifie que l'utilisateur est déconnecté
 			$this->display('login');
 		}

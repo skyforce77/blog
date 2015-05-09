@@ -23,7 +23,7 @@ class html{
 		if(is_array($link) && array_key_exists('controller', $link) && array_key_exists('view', $link)){
 			$temp = WEBROOT."index.php?p=".$link['controller'].'/'.$link['view'];
 			if(array_key_exists('params', $link)){
-				$temp .= '/index.php?p='.$link['params'];
+				$temp .= '/'.$link['params'];
 			}
 			$link = $temp;
 		}

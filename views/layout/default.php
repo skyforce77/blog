@@ -25,8 +25,10 @@
 						<a href="" class="dropdown-toggle">Catégories</a>
 						<ul class="d-menu" data-role="dropdown">
 							<?php
+								$categories = Layouts::getCategories();
 								foreach ($categories as $value) {
-								   echo '<li><a href="#">'.ucfirst($value['name']).'</a></li>';
+									$link = html::link(ucfirst($value['name']), array('controller' => 'Categories',  'view' => 'view', 'params' => $value['id']));
+								  	echo '<li>'.$link.'</li>';
 								}
 							?>
 						</ul>
