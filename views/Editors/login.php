@@ -1,15 +1,4 @@
-<div class="app-bar" data-role="appbar">
-	<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
-	<span class="app-bar-divider"></span>
-	<ul class="app-bar-menu">
-		<li><?php echo html::link('Connexion', array('controller'=>'Editors', 'view'=>'login')); ?>
-		<li><?php echo html::link('Menu rédacteur', array('controller'=>'Editors', 'view'=>'view')); ?>
-		<li><?php echo html::link('Profil', array('controller'=>'Editors', 'view'=>'profil')); ?>
-	</ul>
-	<span class="app-bar-pull"></span>
-</div>
-
-<div class="panel">
+<div class="panel login-form">
 	<div class="heading">
 		<span class="title">Connexion</span>
 	</div>
