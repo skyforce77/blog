@@ -18,13 +18,14 @@ class Controller{
 		
 			//utilisation de la fonction sqlquery, on sait qu'on aura qu'un résultat car l'id d'un membre est unique.
 			$editorModel = new Model('editors');
-			$retour = $editorModel->select(array(), array('conditions' => 'id = '.intval($_SESSION['membre_id'].'');
+			$retour = $editorModel->select(array(), array('conditions' => 'id = '.intval($_SESSION['membre_id'].'')));
 
 			//Si la requête a un résultat (c'est-à-dire si l'id existe dans la table membres)
 			if(isset($retour['name']) && $retour['editor_name'] != ''){
-				if($_SESSION['editor_password'] != $retour['password']){					
+				if($_SESSION['editor_password'] != $retour['password']){
+					session_unset();
+					session_destroy();				
 					return 0;	
-					session_destroy();
 				}	
 				//Validation de la session.
 				$_SESSION['editor_id'] = $retour['id'];
@@ -41,6 +42,14 @@ class Controller{
 	public function __construct(){
 		$this->view = 'index';
 		$this->layout = 'default';
+	}
+
+	public function init() {
+		$categoriesModel = new Model('categories');
+		$this->giveVar('categories', $categoriesModel->select(array('id','name')));
+		$categoriesModel->close();
+		/*Gestion de la session */
+		$this->vars['session_state'] = controller::check_session();
 	}
 
 	public function display($filename){

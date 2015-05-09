@@ -1,6 +1,6 @@
 <?php
-	session_start();
-	//controller::check_session();
+	if(!isset($background))
+		$background = 'bg-lighterBlue';
 ?>
 <html>
 	<head>
@@ -15,7 +15,7 @@
 		<?php echo html::javascript('metro.js'); ?>
 		<title>Blog</title>
 	</head>
-	<body>
+	<body class="<?php echo $background ?> large-back">
 		<header>
 			<div class="app-bar" data-role="appbar">
 				<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
@@ -32,9 +32,7 @@
 						</ul>
 					</li>
 				</ul>
-				<div class="app-bar-element place-right">
-					<li><?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login')); ?></li>
-				</div>
+				<?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element place-right')); ?>
 				<span class="app-bar-pull"></span>
 			</div>
 		</header>
