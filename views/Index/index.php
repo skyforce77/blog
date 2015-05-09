@@ -1,29 +1,30 @@
-<div class="sticky">
-  	<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
-		<ul class="title-area">
-    			<li class="name">
-    	 			<h1><a href="./">Accueil</a></h1>
-    			</li>
-  		</ul>
-
-  		<section class="top-bar-section">
-  			<ul class="left">
-  				<li class="has-dropdown not-click">
-					<a href="#">Catégories</a>
-					<ul class="dropdown">
-						<?php 
-							foreach ($categories as $value) {
-								echo '<li><a href="#">'.ucfirst($value['name']).'</a></li>';
-							}
-
-						?>
-						
-					</ul>
-				</li>
-  			</ul>
-			<ul class="right">
-				<li><a href="Editors/login">Accès rédacteur</a></li>
+<div class="app-bar">
+	<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
+	<span class="app-bar-divider"></span>
+	<ul class="app-bar-menu">
+		<li>
+			<a href="" class="dropdown-toggle">Catégories</a>
+			<ul class="d-menu" data-role="dropdown">
+				<?php
+					foreach ($categories as $value) {
+					   echo '<li><a href="#">'.ucfirst($value['name']).'</a></li>';
+					}
+				?>
 			</ul>
-		</section>
-	</nav>
+		</li>
+		<li><?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login')); ?>
+	</ul>
 </div>
+
+<?php
+  //TOREMOVE
+  $articles = array(
+    array('title'=>'Test', 'content'=>'Contenu random')
+  );
+  foreach ($articles as $value) {
+    echo '<div class="panel"><div class="heading">';
+    echo '<span class="title">'.$value['title'].'</span></div>';
+    echo '<div class="content">'.$value['content'].'</div>';
+    echo '</div>';
+  }
+?>

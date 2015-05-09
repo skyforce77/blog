@@ -1,6 +1,6 @@
 <?php
-define('ROOT', dirname(__FILE__).'/');//A remplacer par $_SERVER['SCRIPT_NAME'] en cas de problème
-define('WEBROOT', '/blog/');
+define('ROOT', '');//A remplacer par $_SERVER['SCRIPT_NAME'] en cas de problème
+define('WEBROOT', '');
 
 $action = 'view';
 $controller = 'Index';

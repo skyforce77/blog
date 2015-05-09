@@ -3,12 +3,12 @@
 class html{
 
 	public static function favicon($name){
-		$link = ROOT."webroot/image/".$name;	
+		$link = ROOT."webroot/images/".$name;	
 		return "<link rel=\"icon\" type=\"image/png\" href=\"".$link."\" >";
 	}
 
 	public static function image($link, $options = null){
-		$link = ROOT."webroot/js/".$name;
+		$link = ROOT."webroot/images/".$name;
 		$string = "";
 		if(is_array($options)){
 			foreach ($options as $key => $value){
@@ -21,9 +21,9 @@ class html{
 	public static function link($text, $link, $options = null){
 		$string = '';
 		if(is_array($link) && array_key_exists('controller', $link) && array_key_exists('view', $link)){
-			$temp = WEBROOT.$link['controller'].'/'.$link['view'];
+			$temp = WEBROOT."index.php?p=".$link['controller'].'/'.$link['view'];
 			if(array_key_exists('params', $link)){
-				$temp .= '/'.$link['params'];
+				$temp .= '/index.php?p='.$link['params'];
 			}
 			$link = $temp;
 		}
@@ -37,7 +37,6 @@ class html{
 				$string .= $string." ".$key."=\"".$value."\"";
 			}
 		}
-
 		return '<a href="'.$link.'" '.$string.' >'.$text.'</a>';
 	}
 
