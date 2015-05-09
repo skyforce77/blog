@@ -32,14 +32,16 @@
 						</ul>
 					</li>
 				</ul>
+				<div class="app-bar-element place-right">
+					<li><?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login')); ?></li>
+				</div>
 				<span class="app-bar-pull"></span>
 			</div>
 		</header>
 
 			<?php echo $layoutContent; ?>
 
-		<foot class="bg-cobalt">
-			<li><?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login')); ?></li>
+		<foot>
 		</foot>
 	</body>
 </html>
