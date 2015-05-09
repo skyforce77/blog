@@ -18,7 +18,7 @@ class Controller{
 		
 			//utilisation de la fonction sqlquery, on sait qu'on aura qu'un résultat car l'id d'un membre est unique.
 			$editorModel = new Model('editors');
-			$retour = $editorModel->select(array(), array('conditions' => 'id = '.intval($_SESSION['membre_id'].'');
+			$retour = $editorModel->select(array(), array('conditions' => 'id = '.intval($_SESSION['membre_id'].'')));
 
 			//Si la requête a un résultat (c'est-à-dire si l'id existe dans la table membres)
 			if(isset($retour['name']) && $retour['editor_name'] != ''){

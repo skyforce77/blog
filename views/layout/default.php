@@ -26,15 +26,16 @@
 						<ul class="d-menu" data-role="dropdown">
 							<?php
 								foreach ($categories as $value) {
-								   echo '<li><a href="#">'.ucfirst($value['name']).'</a></li>';
+									$link = html::link(ucfirst($value['name']), array('controller' => 'Categories',  'view' => 'view', 'params' => $value['id']));
+								  	echo '<li>'.$link.'</li>';
 								}
 							?>
 						</ul>
 					</li>
 				</ul>
-				<div class="app-bar-element place-right">
-					<li><?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login')); ?></li>
-				</div>
+				<?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class' => 'app-bar-element place-right')); ?></li>
+				
+				
 				<span class="app-bar-pull"></span>
 			</div>
 		</header>
