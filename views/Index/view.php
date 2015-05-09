@@ -1,21 +1,4 @@
-<div class="app-bar" data-role="appbar">
-	<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
-	<span class="app-bar-divider"></span>
-	<ul class="app-bar-menu">
-		<li>
-			<a href="" class="dropdown-toggle">Catégories</a>
-			<ul class="d-menu" data-role="dropdown">
-				<?php
-					foreach ($categories as $value) {
-					   echo '<li><a href="#">'.ucfirst($value['name']).'</a></li>';
-					}
-				?>
-			</ul>
-		</li>
-		<li><?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login')); ?>
-	</ul>
-	<span class="app-bar-pull"></span>
-</div>
+
 
 <?php
   //TOREMOVE
