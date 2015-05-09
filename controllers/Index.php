@@ -4,7 +4,7 @@
 			$categoriesModel = new Model('categories');
 			$this->giveVar('categories', $categoriesModel->select(array('name')));
 			$categoriesModel->close();
-			$this->display('index');
+			$this->display('view');
 		}
 	}
 ?>
