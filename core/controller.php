@@ -43,7 +43,7 @@ class Controller{
 		$this->layout = 'default';
 	}
 
-	public function display($filename){
+	public function display($filename){		
 		$layoutContent = "";
 		extract($this->vars);
 
