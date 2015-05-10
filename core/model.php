@@ -24,9 +24,7 @@ class Model{
 	public function query($sql){
 		if($sql != null && $this->link != null){
 			$res = $this->link->query($sql);
-			$return = $res->fetchAll();
-			$res->closeCursor();
-			return $return;
+			return $res;
 		}
 		return null;
 	}

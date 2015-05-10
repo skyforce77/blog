@@ -1,9 +1,40 @@
 <?php
 	class Index extends Controller{
-		public function view($categorie=null){
+		public function view($page=null){
 			$sessionStatu = controller::check_session();
-			$postsModel = new Model('posts');
-			$posts = $postsModel->query('SELECT id, title, summary, date_creation, nbr_comments, categories, author from posts_view');
+			$postsModel = new Model('posts_view');
+			$param = null;
+			if(isset($_GET['sort'])){
+				$sort = $_GET['sort'];
+				if($sort == 'Plus récent'){
+					$param = array('order' => 'date_creation DESC');
+				}
+				else if($sort == 'Moins récent'){
+					$param = array('order' => 'date_creation ASC');
+				}
+				else if($sort == 'Auteur A-Z'){
+					$param = array('order' => 'author ASC');
+				}
+				else if($sort == 'Auteur Z-A'){
+					$param = array('order' => 'author DESC');
+				}
+			}
+
+			if(!isset($_GET['categorie']) || $_GET['categorie'] == 'Toutes les catégories'){
+				$posts = $postsModel->select(array('id', 'title', 'summary', 'date_creation', 'nbr_comments', 'categories', 'author'), $param);
+			}
+			else{
+				if($param['order'] != null){
+					$order = "ORDER BY ".$param['order']." ";
+				}
+				$sql = 'select *
+				from categories 
+				inner join posts_categories on categories.id = posts_categories.categories_id 
+				inner join posts_view on posts_view.id = posts_categories.posts_id 
+				where categories.name = \''.$_GET['categorie'].'\' '.$order.';';
+				$posts = $postsModel->query($sql);
+			}
+			
 			$this->giveVar(compact('posts'));
 			$this->display('view');
 			/*

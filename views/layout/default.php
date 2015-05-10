@@ -15,25 +15,11 @@
 		<header>
 			<div class="app-bar" data-role="appbar">
 				<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
-				<span class="app-bar-divider"></span>
-				<ul class="app-bar-menu">
-					<li>
-						<a href="" class="dropdown-toggle">Catégories</a>
-						<ul class="d-menu" data-role="dropdown">
-							<?php
-								$categories = Layouts::getCategories();
-								foreach ($categories as $value) {
-									$link = html::link(ucfirst($value['name']), array('controller' => 'Categories',  'view' => 'view', 'params' => $value['id']));
-								  	echo '<li>'.$link.'</li>';
-								}
-							?>
-						</ul>
-					</li>
-				</ul>
+								
 				<span class="app-bar-divider"></span>
 				<?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element')); ?>
 				
-				<span class="app-bar-pull"></span>
+				
 			</div>
 		</header>
 
