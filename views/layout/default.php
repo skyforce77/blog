@@ -1,7 +1,3 @@
-<?php
-	if(!isset($background))
-		$background = 'bg-lighterBlue';
-?>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -15,7 +11,7 @@
 		<?php echo html::javascript('metro.js'); ?>
 		<title>Blog</title>
 	</head>
-	<body class="<?php echo $background ?> large-back">
+	<body>
 		<header>
 			<div class="app-bar" data-role="appbar">
 				<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
@@ -34,7 +30,9 @@
 						</ul>
 					</li>
 				</ul>
-				<?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element place-right')); ?>
+				<span class="app-bar-divider"></span>
+				<?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element')); ?>
+				
 				<span class="app-bar-pull"></span>
 			</div>
 		</header>

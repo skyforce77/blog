@@ -1,26 +1,30 @@
 <?php
 	class Posts extends Controller{
 		public function view($idPost){
-			$this->init();
+			$sessionStatu = controller::statu();
+			$this->giveVar(compact('sessionStatu'));
 			//On verifie que le post existe
 		}
 
 		public function edit($idPost){
-			$this->init();
+			$sessionStatu = controller::statu();
+			$this->giveVar(compact('sessionStatu'));
 			//On verifie que le post existe
 			//On verifie que l'utilisateur est connecté
 			//On verifie que c'est l'auteur
 		}
 
 		public function delete($idPost){
-			$this->init();
+			$sessionStatu = controller::statu();
+			$this->giveVar(compact('sessionStatu'));
 			//On verifie que le post existe
 			//On verifie que l'utilisateur est connecté
 			//On verifie que c'est l'auteur
 		}
 
 		public function add(){
-			$this->init();
+			$sessionStatu = controller::statu();
+			$this->giveVar(compact('sessionStatu'));
 			//On verifie que l'utilisateur est connecté
 		}
 	}

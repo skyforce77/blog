@@ -44,14 +44,6 @@ class Controller{
 		$this->layout = 'default';
 	}
 
-	public function init() {
-		$categoriesModel = new Model('categories');
-		$this->giveVar('categories', $categoriesModel->select(array('id','name')));
-		$categoriesModel->close();
-		/*Gestion de la session */
-		$this->vars['session_state'] = controller::check_session();
-	}
-
 	public function display($filename){
 		$layoutContent = "";
 		extract($this->vars);
