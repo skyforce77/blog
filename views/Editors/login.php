@@ -5,7 +5,7 @@
 		<?php if($session_state == 1): ?>
 			<br>
 			<h1 class="text-light">Déjà connecté</h1>
-			<hr class="bg-teal">
+			<hr class="bg-grayLighter">
 			<br>
 		<?php else: ?>
 			<form action="#" method="POST">
