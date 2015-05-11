@@ -1,11 +1,46 @@
+<?php if($login_state == 1): ?>
+			<script>
+				$.Notify({
+					caption: 'Connexion',
+					content: 'La connexion a échoué',
+					type: 'alert',
+					icon: "<span class='mif-user'></span>"
+				});
+			</script>
+<?php endif ?>
+<?php if($login_state == 0): ?>
+			<script>
+				$.Notify({
+					caption: 'Connexion',
+					content: 'Connexion réussie!',
+					type: 'success',
+					icon: "<span class='mif-user'></span>"
+				});
+			</script>
+<?php endif ?>
+<?php if($login_state == 2): ?>
+			<script>
+				$.Notify({
+					caption: 'Déconnexion',
+					content: 'Déconnexion réussie!',
+					type: 'success',
+					icon: "<span class='mif-user'></span>"
+				});
+			</script>
+<?php endif ?>
+
 <div>
 	<br>
 	<br>
 	<div class="container page-content bg-white login-form">
 		<?php if(isset($_SESSION['editor_id'])): ?>
 			<br>
-			<h1 class="text-light">Déjà connecté</h1>
-			<hr class="bg-grayLighter">
+			<h1 class="text-light">Connecté</h1>
+			<hr class="bg-teal">
+			<form action="#" method="POST">
+				<input type="hidden" name="logout" value="">
+				<input class="button" type="submit" value="Se déconnecter">
+			</form>
 			<br>
 		<?php else: ?>
 			<form action="#" method="POST">

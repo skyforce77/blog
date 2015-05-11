@@ -15,11 +15,17 @@
 		<header>
 			<div class="app-bar" data-role="appbar">
 				<a class="app-bar-element" href="./"><span class="mif-home"></span> Accueil</a>
-								
+
 				<span class="app-bar-divider"></span>
-				<?php echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element')); ?>
-				
-				
+				<?php
+					if(isset($_SESSION['editor_id'])) {
+						echo html::link(ucfirst($_SESSION['editor_id']), array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element'));
+					} else {
+						echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element'));
+					}
+				?>
+
+
 			</div>
 		</header>
 
