@@ -1,4 +1,5 @@
 <?php
+session_start();
 define('ROOT', '');//A remplacer par $_SERVER['SCRIPT_NAME'] en cas de problème
 define('WEBROOT', '');
 
@@ -24,6 +25,8 @@ require_once(ROOT.'core/controller.php');
 require_once(ROOT.'controllers/Layouts.php');
 require_once(ROOT.'core/helper.php');
 require_once(ROOT.'controllers/'.$controller.'.php');
+
+controller::check_session();
 
 $instance = new $controller();
 if(method_exists($controller, $action)){

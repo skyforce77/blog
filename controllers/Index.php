@@ -32,7 +32,9 @@
 				inner join posts_categories on categories.id = posts_categories.categories_id 
 				inner join posts_view on posts_view.id = posts_categories.posts_id 
 				where categories.name = \''.$_GET['categorie'].'\' '.$order.';';
-				$posts = $postsModel->query($sql);
+				$result = $postsModel->query($sql);
+				$posts = $result->fetchAll();
+
 			}
 			
 			$this->giveVar(compact('posts'));

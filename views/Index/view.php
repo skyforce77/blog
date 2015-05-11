@@ -29,21 +29,29 @@
 
   <?php
     $categories = Layouts::getCategories();
+    
+      if (count($posts) == 0){ ?>
+        <br>
+        <h3><span class="mif-warning fg-orange"></span> Aucun post dans cette catégorie</h3>
+  <?php    } else {
       foreach ($posts as $value) {
   ?>
-      <div class="posts_summary">
-        <div class="post_info">
-          <span class ="date"><?= $value['date_creation'] ?></span>
-          <span class ="commentaires"><?= $value['nbr_comments'] ?></span>
-          <span class ="categories"><?= $value['categories'] ?></span>
-        </div>
-        <div class="text">
-          <h2><?= $value['title'] ?></h2>
-          <p><?= $value['summary'] ?></p>
-          <span class ="auteur"><?= $value['author'] ?></span>
-        </div>
+    <br>
+    <div class="panel border-black">
+      <div class="heading">
+        <span class="title"><?= $value['title'] ?></span>
+        <span class ="date place-right text-secondary padding-right10"><span class="mif-calendar mif-lg"></span> <?= $value['date_creation'] ?></span><br>
       </div>
+      <div class="content">
+        <div class="post_info text-small">
+          <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $value['nbr_comments'] ?></span><br>
+          <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $value['categories'] ?></span><br>
+        </div>
+        <p><?= $value['summary'] ?></p><br>
+        <span class ="author text-small"><span class="mif-user"></span> <?= $value['author'] ?></span>
+      </div>
+    </div>
   <?php
-      }
+      }}
   ?>
 </div>
