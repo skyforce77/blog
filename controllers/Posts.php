@@ -15,6 +15,10 @@
 
 			$this->giveVar(compact('comments'));
 
+			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])) {
+				//Insérer le commentaire dans la bdd
+			}
+
 			$this->display('view');
 		}
 
