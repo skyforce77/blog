@@ -13,7 +13,7 @@
 			  <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $post[0]['categories'] ?></span><br>
 			</div>
 			<p><?= $post[0]['content'] ?></p><br>
-			<span class ="author text-small"><span class="mif-user"></span> <?= $post[0]['autor'] ?></span>
+			<span class ="author text-small"><span class="mif-user"></span> <?= $post[0]['author'] ?></span>
 		      </div>
 		    </div>
 	<?php else: ?>
