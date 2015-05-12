@@ -64,17 +64,15 @@
 
     <div class="pagination">
       <?php
-      if(isset($_GET['p']) && count($_GET)>0){
-        $options = "";
-          foreach ($_GET as $key => $value) {
-            if($key != "p")
-              $options .= "&".$key."=".$value;
-          }
+      $options = "";
+      if(isset($_GET['page']) && count($_GET)>0){        
+        foreach ($_GET as $key => $value) {
+          if($key != "page")
+            $options .= "&".$key."=".$value;
         }
-      if(isset($_GET['p']) && $_GET['p'] > 1){
-        
-        
-        echo "<a class=\"item\" href=\"?p=".($_GET['p']-1).$options."\"><</a>";
+      }
+      if(isset($_GET['page']) && $_GET['page'] > 1){
+        echo "<a class=\"item\" href=\"?page=".($_GET['page']-1).$options."\"><</a>";
       }else{
         echo "<span class=\"item\" ><</span>";
       }
@@ -84,12 +82,16 @@
       }
       else{        
          for($i=1; $i<=($nbrPages); $i++){
-            echo "<a class=\"item\" href=\"?p=".$i.$options."\">".$i."</a>";
+            $current = "";
+            if($_GET['page'] == $i){
+              $current = "current";
+            }
+            echo "<a class=\"item ".$current."\" href=\"?page=".$i.$options."\" >".$i."</a>";
         }
       }     
     
-    if(isset($_GET['p']) && $_GET['p'] < $nbrPages){        
-        echo "<a class=\"item\" href=\"?p=".($_GET['p']+1).$options."\">></a>";
+      if(isset($_GET['page']) && $_GET['page'] < $nbrPages){        
+        echo "<a class=\"item\" href=\"?page=".($_GET['page']+1).$options."\">></a>";
       }else{
         echo "<span class=\"item\" >></span>";
       }

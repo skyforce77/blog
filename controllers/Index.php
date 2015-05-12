@@ -9,9 +9,9 @@
 			$where = "";
 			$order = "";
 
-			if(isset($_GET['p'])){
-				$currentPage = $_GET['p'];
-				$left_limit = ($_GET['p']-1)*$offset;
+			if(isset($_GET['page'])){
+				$currentPage = $_GET['page'];
+				$left_limit = ($_GET['page']-1)*$offset;
 			}
 
 			if(isset($_GET['sort'])){

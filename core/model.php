@@ -23,7 +23,8 @@ class Model{
 
 	public function query($sql){
 		if($sql != null && $this->link != null){
-			$res = $this->link->query($sql);
+			$res = $this->link->prepare($sql);
+			$res->execute();
 			return $res;
 		}
 		return null;
@@ -60,7 +61,8 @@ class Model{
 		}
 
 		$sql = "SELECT ".$select." FROM ".$this->table." ".$conditions.$order.$limit.";";
-		$res = $this->link->query($sql);
+		$res = $this->link->prepare($sql);
+		$res->execute();
 		$return = $res->fetchAll();
 		$res->closeCursor();
 
@@ -79,7 +81,8 @@ class Model{
 			$set .= $key."='".$value."'";
 		}
 		$sql = "UPDATE ".$this->table." SET ".$set." WHERE ".$conditions.";";
-		$this->link->exec($sql);
+		$res = $this->link->prepare($sql);
+		$res->execute();
 	}
 
 	public function insert($arr){
@@ -99,12 +102,14 @@ class Model{
 		}
 		$sql = "INSERT INTO ".$this->table." (".$champs.") VALUES (".$values.");";
 		
-		$this->link->exec($sql);
+		$res = $this->link->prepare($sql);
+		$res->execute();
 	}
 
 	public function delete($cond){
 		$sql = "DELETE FROM  ".$this->table." WHERE ".$cond." ;";
-		$this->link->exec($sql);
+		$res = $this->link->prepare($sql);
+		$res->execute();
 	}
 
 	
