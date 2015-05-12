@@ -1,6 +1,6 @@
 <?php
 	class Index extends Controller{
-		public function view($page=null){
+		public function view(){
 			$sessionStatu = controller::check_session();
 			$postsModel = new Model('posts_view');
 			$param = null;
