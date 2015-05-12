@@ -1,7 +1,7 @@
 <?php
 	class Posts extends Controller{
 		public function view($idPost){
-			$postsModel = new Model('posts');
+			$postsModel = new Model('posts_view');
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
 			$postsModel->close();
 			
