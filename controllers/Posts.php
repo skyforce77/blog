@@ -8,7 +8,7 @@
 
 			$postsModel = new PostsModel('posts_view');
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			
+			$temp = new Model('comments');			
 
 			if(isset($post[0])) {
 				$this->giveVar(compact('post'));
@@ -42,10 +42,10 @@
 				}
 				if(empty($message)){
 					$ret = $commentsModel->sendComment(array(
-						'pseudo'=>$_POST['pseudo'], 
-						'mail'=>$_POST['mail'],
-						'comment'=>$_POST['text'],
-						'postId'=>$idPost
+						'pseudo'=>mysql_real_escape_string($_POST['pseudo']), 
+						'mail'=>mysql_real_escape_string($_POST['mail']),
+						'comment'=>mysql_real_escape_string($_POST['text']),
+						'postId'=>intval($idPost)
 						));
 					if($ret == 1){
 						$postResult = array(1, 'Erreur lors de l\'envoi de votre commentaire.');
