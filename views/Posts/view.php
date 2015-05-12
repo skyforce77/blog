@@ -33,7 +33,7 @@
 					    <blockquote>
 							<p><?= $value['content'] ?></p>
 							<small>
-								Par <a href="mailto:<?= $value['mail'] ?>"><?= $value['autor'] ?></a> le <?= $value['date_creation'] ?>
+								Par <strong><?= $value['author'] ?></strong> le <?= $value['date_creation'] ?>
 							</small>
 						</blockquote>
 					    <br>
