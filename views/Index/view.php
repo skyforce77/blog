@@ -74,7 +74,7 @@
       if(isset($_GET['page']) && $_GET['page'] > 1){
         echo "<a class=\"item\" href=\"?page=".($_GET['page']-1).$options."\"><</a>";
       }else{
-        echo "<span class=\"item\" disabled><</span>";
+        echo "<span class=\"item disabled\"><</span>";
       }
       if(isset($_GET['page'])){
         if($nbrPages == 0){
@@ -95,9 +95,9 @@
          
     
       if(isset($_GET['page']) && $_GET['page'] < $nbrPages){        
-        echo "<a class=\"item\" href=\"?page=".($_GET['page']+1).$options."\">></a>";
+        echo "<a class='item' href='?page=".($_GET['page']+1).$options."'>></a>";
       }else{
-        echo "<span class=\"item\" disabled>></span>";
+        echo "<span class='item disabled'>></span>";
       }
 ?>
 
