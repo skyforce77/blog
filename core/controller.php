@@ -42,6 +42,7 @@ class Controller{
 	public function __construct(){
 		$this->view = 'index';
 		$this->layout = 'default';
+		
 	}
 
 	public function display($filename){

@@ -1,8 +1,9 @@
 <?php
 	class Index extends Controller{
 		public function view(){
+			require_once(ROOT.'models/PostsModel.php');
 			$sessionStatu = controller::check_session();
-			$postsModel = new Model('posts_view');
+			$postsModel = new PostsModel('posts_view');
 			$param = null;
 			$left_limit = 0;
 			$offset = 10;
@@ -36,22 +37,10 @@
 			if(isset($_GET['categorie']) && $_GET['categorie'] != 'Toutes les catégories'){
 				$where = " where categories.id = ".$_GET['categorie']." ";
 			}
-			$sql = 'select *
-			from categories 
-			inner join posts_categories on categories.id = posts_categories.categories_id 
-			inner join posts_view on posts_view.id = posts_categories.posts_id
-			'.$where.' group by posts_view.id '.$order.' limit '.$left_limit.','.$offset.' ;';
-			$result = $postsModel->query($sql);
-			$posts = $result->fetchAll();
-
-			$sql = 'select *
-			from categories 
-			inner join posts_categories on categories.id = posts_categories.categories_id 
-			inner join posts_view on posts_view.id = posts_categories.posts_id
-			'.$where.' group by posts_view.id ;';
-			$result = $postsModel->query($sql);
-
-			$nbrPosts = $result->rowCount();
+			
+			$posts = $postsModel->getPosts($where, $order, $left_limit, $offset);			
+			$nbrPosts = $postsModel->countPosts($where);
+			
 			$nbrPages = $nbrPosts%$offset;
 			
 			$this->giveVar(compact('nbrPages'));

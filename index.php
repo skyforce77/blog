@@ -7,6 +7,9 @@ $action = 'view';
 $controller = 'Index';
 $get = null;
 
+
+
+
 /* Récupération des paramètres de l'URL */
 if(isset($_GET['p']) && !empty($_GET['p'])){
 	$param = explode('/', $_GET['p']); 
