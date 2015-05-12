@@ -39,7 +39,7 @@
 			<hr class="bg-teal">
 			<form action="#" method="POST">
 				<input type="hidden" name="logout" value="">
-				<input class="button" type="submit" value="Se déconnecter">
+				<button class="button" type="submit"><span class="mif-switch"></span> Se déconnecter</button>
 			</form>
 			<br>
 		<?php else: ?>

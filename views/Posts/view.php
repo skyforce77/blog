@@ -30,15 +30,12 @@
 					<?php    } else {
 					      foreach ($comments as $value) {
 					 ?>
-					    <div class="panel border-black">
-							<div class="heading">
-								<span class="title"><?= $value['autor'] ?></span>
-								<span class ="date place-right text-secondary padding-right10"><span class="mif-calendar mif-lg"></span> <?= $value['date_creation'] ?></span><br>
-					    	</div>
-					    	<div class="content">
-						        <p>> <?= $value['content'] ?></p><br>
-							</div>
-					    </div>
+					    <blockquote>
+							<p><?= $value['content'] ?></p>
+							<small>
+								Par <a href="mailto:<?= $value['mail'] ?>"><?= $value['autor'] ?></a> le <?= $value['date_creation'] ?>
+							</small>
+						</blockquote>
 					    <br>
 					<?php
 					      }

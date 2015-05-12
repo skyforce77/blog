@@ -72,13 +72,13 @@
         }
       }
       if(isset($_GET['page']) && $_GET['page'] > 1){
-        echo "<a class=\"item\" href=\"?page=".($_GET['page']-1).$options."\"><</a>";
+        echo "<a class='item' href='?page=".($_GET['page']-1).$options."'><</a>";
       }else{
-        echo "<span class=\"item\" disabled><</span>";
+        echo "<span class='item disabled'><</span>";
       }
       if(isset($_GET['page'])){
         if($nbrPages == 0){
-          echo "<span class=\"item current\">1</span>";
+          echo "<span class='item current'>1</span>";
         }
         else{        
            for($i=1; $i<=($nbrPages); $i++){
@@ -86,18 +86,18 @@
               if($_GET['page'] == $i){
                 $current = "current";
               }
-              echo "<a class=\"item ".$current."\" href=\"?page=".$i.$options."\" >".$i."</a>";
+              echo "<a class='item ".$current."' href='?page=".$i.$options."' >".$i."</a>";
           }
         } 
       }else{
-        echo "<span class=\"item current\">1</span>";
+        echo "<span class='item current'>1</span>";
       }
          
     
       if(isset($_GET['page']) && $_GET['page'] < $nbrPages){        
-        echo "<a class=\"item\" href=\"?page=".($_GET['page']+1).$options."\">></a>";
+        echo "<a class='item' href='?page=".($_GET['page']+1).$options."'>></a>";
       }else{
-        echo "<span class=\"item\" disabled>></span>";
+        echo "<span class='item disabled'>></span>";
       }
 ?>
 
