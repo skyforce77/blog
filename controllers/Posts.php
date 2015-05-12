@@ -4,10 +4,16 @@
 			$postsModel = new Model('posts_view');
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
 			$postsModel->close();
-			
+
 			if(isset($post[0])) {
 				$this->giveVar(compact('post'));
 			}
+
+			$commentsModel = new Model('comments');
+			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
+			$commentsModel->close();
+
+			$this->giveVar(compact('comments'));
 
 			$this->display('view');
 		}
