@@ -42,9 +42,9 @@
 					      foreach ($comments as $value) {
 					 ?>
 					    <blockquote>
-							<p><?= $value['content'] ?></p>
+							<p><?= htmlspecialchars($value['content'])?></p>
 							<small>
-								Par <strong><?= $value['author'] ?></strong> le <?= $value['date_creation'] ?>
+								Par <strong><?= htmlspecialchars($value['author']) ?></strong> le <?= $value['date_creation'] ?>
 							</small>
 						</blockquote>
 					    <br>
