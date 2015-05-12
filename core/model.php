@@ -4,8 +4,8 @@
 class Model{
 	/* A initialiser dans la classe de la table */
 
-	private $table;
-	private $link;
+	protected $table;
+	protected $link;
 
 
 	public function __construct($tab){
@@ -15,7 +15,7 @@ class Model{
 		    $this->link = new PDO('mysql:host='.$DBConfig['host'].';dbname='.$DBConfig['dbname'].'', $DBConfig['user'], $DBConfig['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));		    
 			$this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		} catch (PDOException $e) {
-		    print "Erreur !: " . $e->getMessage() . "<br/>";
+		    print_r("Erreur !: " . $e->getMessage() . "<br/>");
 		    $this->link = null;
 		    die();
 		}
@@ -81,6 +81,7 @@ class Model{
 			$set .= $key."='".$value."'";
 		}
 		$sql = "UPDATE ".$this->table." SET ".$set." WHERE ".$conditions.";";
+
 		$res = $this->link->prepare($sql);
 		$res->execute();
 	}
@@ -101,7 +102,7 @@ class Model{
 			$values .= "'".$v."'";
 		}
 		$sql = "INSERT INTO ".$this->table." (".$champs.") VALUES (".$values.");";
-		
+		print_r($sql);
 		$res = $this->link->prepare($sql);
 		$res->execute();
 	}
@@ -116,8 +117,11 @@ class Model{
 	public function setTable($value){
 		$this->table = $value;
 	}
-	public function getTable($value){
-		$this->table = $value;
+	public function getTable(){
+		return $this->table;
+	}
+	public function getLink(){
+		return $this->link;
 	}
 
 	public function close(){
