@@ -7,8 +7,7 @@
 			$postResult = null;
 
 			$postsModel = new PostsModel('posts_view');
-			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			$temp = new Model('comments');			
+			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));			
 
 			if(isset($post[0])) {
 				$this->giveVar(compact('post'));
