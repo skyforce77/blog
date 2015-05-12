@@ -1,5 +1,16 @@
+<?php if($formResult != null): ?>
+			<script>
+				$.Notify({
+					caption: 'Commentaire',
+					content: '<?= $formResult[1] ?>',
+					type: '<?= $formResult[0] == 1 ? "alert" : "success" ?>',
+					keepOpen: true,
+					icon: "<span class='mif-user'></span>"
+				});
+			</script>
+<?php endif ?>
+
 <div class="container page-content">
-	<br>
 	<br>
 	<?php if(isset($post[0])): ?>
 		    <div class="panel border-black">
