@@ -11,7 +11,15 @@ class CommentsModel extends Model{
 			}
 		}
 
-		//$this->insert();
+
+		$req = $this->link->prepare('INSERT INTO comments (author, content, mail, posts_id, date_creation) VALUES (:author, :comment, :mail, :posts_id, :date_creation)');
+		$req->execute(array(
+			':author' => $array['pseudo'],
+			':comment' => $array['comment'],
+			':mail' => $array['mail'],
+			':posts_id' => $array['postId'],
+			':date_creation' => date("Y-m-d H:i:s")
+			));
 	}
 }
 

@@ -3,9 +3,12 @@
 		public function view($idPost){
 			require_once(ROOT.'models/PostsModel.php');
 			require_once(ROOT.'models/CommentsModel.php');
+
+			$postResult = null;
+
 			$postsModel = new PostsModel('posts_view');
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			$postsModel->close();
+			
 
 			if(isset($post[0])) {
 				$this->giveVar(compact('post'));
@@ -13,18 +16,23 @@
 
 			$commentsModel = new CommentsModel('comments');
 			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
-			$commentsModel->close();
-
-			$this->giveVar(compact('comments'));			
-			$this->display('view');
+			
 
 			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])){
 				$message = "";
+				
+				if(isset($_SESSION['dateComment'])){
+					$date = $_SESSION['dateComment'];
+					$diff = abs(floor($date - time())/60);
+					if ($diff < 3){
+						$message .= 'Vous devez attendre '.variant_int(3-$diff).'min pour poster un autre commentaire';
+					}
+				}
 				if(empty($_POST['mail']) && empty($_POST['pseudo']) && empty($_POST['text'])){
 					$message .= 'Veuillez remplir tout les champs.<br>';
 				}
-				if(strlen($_POST['pseudo']) < 5 || strlen($_POST['pseudo']) > 30){
-					$message .= 'La taille de votre pseudo doit être comprise entre 5 et 30 caractères.<br>';
+				if(strlen($_POST['pseudo']) < 4 || strlen($_POST['pseudo']) > 30){
+					$message .= 'La taille de votre pseudo doit être comprise entre 4 et 30 caractères.<br>';
 				}
 				if(strlen($_POST['text']) < 10 || strlen($_POST['text']) > 300){
 					$message .= 'La taille de votre commentaire doit être comprise entre 10 et 300 caractères.<br>';
@@ -40,13 +48,22 @@
 						'postId'=>$idPost
 						));
 					if($ret == 1){
-						return array(1, 'Erreur lors de l\'envoi de votre commentaire.');
+						$postResult = array(1, 'Erreur lors de l\'envoi de votre commentaire.');
+					}else{
+						$postResult = array(0, 'Votre commentaire a été posté.');
+						$_SESSION['dateComment'] = time();
 					}
 
-					return array(0, 'Votre commentaire a été posté.');
+				}else{
+					$postResult = array(1, $message);
 				}
-				return array(1, $message);
 			}
+			$postsModel->close();
+			$commentsModel->close();
+			$this->giveVar(compact('postResult'));	
+			$this->giveVar(compact('comments'));
+
+			$this->display('view');
 		}
 
 		public function edit($idPost){
