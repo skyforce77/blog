@@ -1,7 +1,8 @@
 <?php
 	class Posts extends Controller{
 		public function view($idPost){
-			$postsModel = new Model('posts_view');
+			require_once(ROOT.'models/PostsModel.php');
+			$postsModel = new PostsModel('posts_view');
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
 			$postsModel->close();
 
@@ -20,6 +21,18 @@
 			}
 
 			$this->display('view');
+
+			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])){
+				if(empty($_POST['mail']) && empty($_POST['pseudo']) && empty($_POST['text'])){
+					return array(1, 'Veuillez remplir tout les champs');
+				}
+				if(strlen($_POST['pseudo']) < 5 || strlen($_POST['pseudo']) > 30){
+					return array(1, 'La taille de votre pseudo doit être comprise entre 5 et 30 caractères');
+				}
+				if(strlen($_POST['text']) < 10 || strlen($_POST['text']) > 300){
+					return array(1, 'La taille de votre commentaire doit être comprise entre 10 et 300 caractères');
+				}
+			}
 		}
 
 		public function edit($idPost){

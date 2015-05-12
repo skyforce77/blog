@@ -14,14 +14,15 @@
 		public function login(){
 			$login_state = 3;
 			if(isset($_POST['login']) && isset($_POST['passwd'])) {
-				$editorModel = new Model('editors');
-				$retour = $editorModel->select(array(), array('conditions' => 'name = '.intval($_POST['login'].'')));
+				require_once(ROOT.'models/EditorsModel.php');
+				$editorModel = new EditorsModel('editors');
+				$passwd = md5($_POST['passwd']);
+				$retour = $editorModel->checkUser($_POST['login'],$passwd);
 				$editorModel->close();
 
-				$passwd = md5($_POST['passwd']);
-				if(isset($retour[0]['password']) && $passwd == $retour[0]['password']) {
+				
+				if($retour != null) {
 					$_SESSION['editor_id'] = $_POST['login'];
-					$_SESSION['editor_password'] = $passwd;
 					$_SESSION['editor_name'] = $retour[0]['name'];
 					$_SESSION['editor_email'] = $retour[0]['mail'];
 					$_SESSION['editor_public'] = $retour[0]['public'];
