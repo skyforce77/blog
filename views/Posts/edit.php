@@ -1,6 +1,6 @@
 <div class="container page-content">
 	<br>
-	<?php if(isset($post[0]) && $canView == 1): ?>
+	<?php if(isset($post[0]) && $canEdit == 1): ?>
 		    <div class="panel border-black">
 						<div class="heading">
 							<span class="title text-shadow">Editer un post</span>

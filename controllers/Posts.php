@@ -1,19 +1,29 @@
 <?php
 	class Posts extends Controller{
-		public function view($idPost=0){
+		public function view($idPost){
 			require_once(ROOT.'models/PostsModel.php');
 			require_once(ROOT.'models/CommentsModel.php');
 
+			$postResult = null;
+
 			$postsModel = new PostsModel('posts_view');
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			
+			$temp = new Model('comments');			
 
+			$canEdit = 0;
 			if(isset($post[0])) {
 				$this->giveVar(compact('post'));
+				if(isset($_SESSION['editor_id']) && $post[0]['author'] == $_SESSION['editor_id']) {
+					$canEdit = 1;
+				}
 			}
 
-			$formResult = null;
+			$this->giveVar(compact('canEdit'));
+
 			$commentsModel = new CommentsModel('comments');
+			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
+			
+
 			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])){
 				$message = "";
 				
@@ -21,61 +31,63 @@
 					$date = $_SESSION['dateComment'];
 					$diff = abs(floor($date - time())/60);
 					if ($diff < 3){
-						$message .= 'Vous devez attendre '.intval(3-$diff).'min pour poster un autre commentaire';
+						$message .= 'Vous devez attendre '.variant_int(3-$diff).'min pour poster un autre commentaire';
 					}
-				}
-				if(empty($_POST['mail']) && empty($_POST['pseudo']) && empty($_POST['text'])){
+				} else if(empty($_POST['mail']) && empty($_POST['pseudo']) && empty($_POST['text'])){
 					$message .= 'Veuillez remplir tout les champs.<br>';
-				}
-				if(strlen($_POST['pseudo']) < 4 || strlen($_POST['pseudo']) > 30){
+				} else if(strlen($_POST['pseudo']) < 4 || strlen($_POST['pseudo']) > 30){
 					$message .= 'La taille de votre pseudo doit être comprise entre 4 et 30 caractères.<br>';
-				}
-				if(strlen($_POST['text']) < 10 || strlen($_POST['text']) > 300){
+				} else if(strlen($_POST['text']) < 10 || 
+strlen($_POST['text']) > 300){
 					$message .= 'La taille de votre commentaire doit être comprise entre 10 et 300 caractères.<br>';
 				} else if(!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)){
 				   	$message .= 'Votre addresse mail est invalide.<br>';
 				}
 				if(empty($message)){
 					$ret = $commentsModel->sendComment(array(
-						'pseudo'=>$_POST['pseudo'], 
-						'mail'=>$_POST['mail'],
-						'comment'=>$_POST['text'],
-						'postId'=>$idPost
+						'pseudo'=>mysql_real_escape_string($_POST['pseudo']), 
+						'mail'=>mysql_real_escape_string($_POST['mail']),
+						'comment'=>mysql_real_escape_string($_POST['text']),
+						'postId'=>intval($idPost)
 						));
 					if($ret == 1){
-						$formResult = array(1, 'Erreur lors de l\'envoi de votre commentaire.');
+						$postResult = array(1, 'Erreur lors de l\'envoi de votre commentaire.');
 					}else{
-						$formResult = array(0, 'Votre commentaire a été posté.');
+						$postResult = array(0, 'Votre commentaire a été posté.');
 						$_SESSION['dateComment'] = time();
 					}
 
 				}else{
-					$formResult = array(1, $message);
+					$postResult = array(1, $message);
 				}
 			}
-			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
 			$postsModel->close();
 			$commentsModel->close();
-			$this->giveVar(compact('formResult'));	
+			$this->giveVar(compact('postResult'));	
 			$this->giveVar(compact('comments'));
+
 			$this->display('view');
 		}
 
-		public function edit($idPost=0){
+		public function edit($idPost){
 			require_once(ROOT.'models/PostsModel.php');
 			require_once(ROOT.'models/CommentsModel.php');
+
+			$postResult = null;
+
 			$postsModel = new PostsModel('posts_view');
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			$postsModel->close();
+			$postsModel->close();		
 
-			$canView = 0;
+			$canEdit = 0;
 			if(isset($post[0])) {
-				if(isset($_SESSION['editor_name']) && $_SESSION['editor_name'] == $post[0]['author']) {
-					$canView = 1;
-				}
 				$this->giveVar(compact('post'));
+				if(isset($_SESSION['editor_id']) && $post[0]['author'] == $_SESSION['editor_id']) {
+					$canEdit = 1;
+				}
 			}
-			$this->giveVar(compact('canView'));
+
+			$this->giveVar(compact('canEdit'));
 			$this->display('edit');
 		}
 

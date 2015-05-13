@@ -1,9 +1,11 @@
-<?php if($formResult != null): ?>
+<?php if($postResult != null): ?>
 			<script>
 				$.Notify({
 					caption: 'Commentaire',
-					content: '<?= $formResult[1] ?>',
-					type: '<?= $formResult[0] == 1 ? "alert" : "success" ?>',
+					content: '<?= 
+$postResult[1] ?>',
+					type: '<?= 
+$postResult[0] == 1 ? "alert" : "success" ?>',
 					keepOpen: true,
 					icon: "<span class='mif-user'></span>"
 				});
@@ -11,6 +13,7 @@
 <?php endif ?>
 
 <div class="container page-content">
+	<br>
 	<br>
 	<?php if(isset($post[0])): ?>
 		    <div class="panel border-black">
@@ -23,8 +26,12 @@
 			  <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $post[0]['nbr_comments'] ?></span><br>
 			  <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $post[0]['categories'] ?></span><br>
 			</div>
-			<p><?= $post[0]['content'] ?></p><br>
-			<span class ="author text-small"><span class="mif-user"></span> <?= $post[0]['author'] ?></span>
+				<p><?= $post[0]['content'] ?></p><br>
+				<?php if($canEdit == 1): ?>
+					<?= html::link('<span class="mif-pencil"></span> Editer votre article', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
+				<?php else: ?>
+					<span class ="author text-small"><span class="mif-user"></span> <?= $post[0]['author'] ?></span>
+				<?php endif ?>
 		      </div>
 		    </div>
 		    <br>
@@ -42,7 +49,7 @@
 					      foreach ($comments as $value) {
 					 ?>
 					    <blockquote>
-							<p><?= htmlspecialchars($value['content'])?></p>
+							<p><?= htmlspecialchars($value['content']) ?></p>
 							<small>
 								Par <strong><?= htmlspecialchars($value['author']) ?></strong> le <?= $value['date_creation'] ?>
 							</small>
