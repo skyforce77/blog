@@ -29,19 +29,18 @@
 					$date = $_SESSION['dateComment'];
 					$diff = abs(floor($date - time())/60);
 					if ($diff < 3){
-						$message .= 'Vous devez attendre '.intval(3-$diff).'min pour poster un autre commentaire';
+						$postResult = array(1, 'Vous devez attendre '.intval(3-$diff).'min pour poster un autre commentaire');
 					}
 				} else if(empty($_POST['mail']) && empty($_POST['pseudo']) && empty($_POST['text'])){
-					$message .= 'Veuillez remplir tout les champs.<br>';
+					$postResult = array(1, 'Veuillez remplir tout les champs.<br>');
 				} else if(strlen($_POST['pseudo']) < 4 || strlen($_POST['pseudo']) > 30){
-					$message .= 'La taille de votre pseudo doit être comprise entre 4 et 30 caractères.<br>';
+					$postResult = array(1, 'La taille de votre pseudo doit être comprise entre 4 et 30 caractères.<br>');
 				} else if(strlen($_POST['text']) < 10 || 
 strlen($_POST['text']) > 300){
-					$message .= 'La taille de votre commentaire doit être comprise entre 10 et 300 caractères.<br>';
+					$postResult = array(1, 'La taille de votre commentaire doit être comprise entre 10 et 300 caractères.<br>');
 				} else if(!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)){
-				   	$message .= 'Votre addresse mail est invalide.<br>';
-				}
-				if(empty($message)){
+				   	$postResult = array(1, 'Votre addresse mail est invalide.<br>');
+				} else if(empty($message)){
 					$ret = $commentsModel->sendComment(array(
 						'pseudo'=>$_POST['pseudo'], 
 						'mail'=>$_POST['mail'],
@@ -54,7 +53,6 @@ strlen($_POST['text']) > 300){
 						$postResult = array(0, 'Votre commentaire a été posté.');
 						$_SESSION['dateComment'] = time();
 					}
-
 				}else{
 					$postResult = array(1, $message);
 				}

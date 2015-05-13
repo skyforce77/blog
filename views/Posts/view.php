@@ -70,14 +70,26 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 				    	<div class="content">
 							<form action="#" method="POST">
 								<div class="input-control text">
-									<input type="text" name="mail" placeholder="Adresse mail">
+									<?php if($postResult != null && $postResult[0] == 1): ?>
+										<input type="text" name="mail" placeholder="Adresse mail" value="<?= $_POST['mail'] ?>">
+									<?php else: ?>
+										<input type="text" name="mail" placeholder="Adresse mail">
+									<?php endif ?>
 								</div>
 								<div class="input-control text">
-									<input type="text" name="pseudo" placeholder="Pseudonyme">
+									<?php if($postResult != null && $postResult[0] == 1): ?>
+										<input type="text" name="pseudo" placeholder="Pseudonyme" value="<?= $_POST['pseudo'] ?>">
+									<?php else: ?>
+										<input type="text" name="pseudo" placeholder="Pseudonyme">
+									<?php endif ?>
 								</div>
 								<br>
 								<div class="input-control textarea commentaire-area">
-									<textarea name="text" placeholder="Commentaire"></textarea>
+									<?php if($postResult != null && $postResult[0] == 1): ?>
+										<textarea name="text" placeholder="Commentaire"><?= $_POST['text'] ?></textarea>
+									<?php else: ?>
+										<textarea name="text" placeholder="Commentaire"></textarea>
+									<?php endif ?>
 								</div>
 								<br>
 								<input class="button" type="submit" value="Poster">
