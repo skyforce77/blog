@@ -19,7 +19,7 @@
 	</div>
         <label>Trier par</label>
 	<div class="input-control select">
-		<select>
+		<select name="sort">
 			<option>Plus récent</option>
 			<option>Moins récent</option>
 			<option>Auteur A-Z</option>

@@ -28,7 +28,8 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 			</div>
 				<p><?= $post[0]['content'] ?></p><br>
 				<?php if($canEdit == 1): ?>
-					<?= html::link('<span class="mif-pencil"></span> Editer votre article', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
+					<?= html::link('<span class="mif-pencil"></span> Editer', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
+					<?= html::link('<span class="mif-bin"></span> Supprimer', array('controller'=>'Posts', 'view'=>'delete', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
 				<?php else: ?>
 					<span class ="author text-small"><span class="mif-user"></span> <?= $post[0]['author'] ?></span>
 				<?php endif ?>
