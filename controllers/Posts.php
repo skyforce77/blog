@@ -21,8 +21,6 @@
 			$this->giveVar(compact('canEdit'));
 
 			$commentsModel = new CommentsModel('comments');
-			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
-			
 
 			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])){
 				$message = "";
@@ -31,7 +29,7 @@
 					$date = $_SESSION['dateComment'];
 					$diff = abs(floor($date - time())/60);
 					if ($diff < 3){
-						$message .= 'Vous devez attendre '.variant_int(3-$diff).'min pour poster un autre commentaire';
+						$message .= 'Vous devez attendre '.intval(3-$diff).'min pour poster un autre commentaire';
 					}
 				} else if(empty($_POST['mail']) && empty($_POST['pseudo']) && empty($_POST['text'])){
 					$message .= 'Veuillez remplir tout les champs.<br>';
@@ -45,10 +43,10 @@ strlen($_POST['text']) > 300){
 				}
 				if(empty($message)){
 					$ret = $commentsModel->sendComment(array(
-						'pseudo'=>mysql_real_escape_string($_POST['pseudo']), 
-						'mail'=>mysql_real_escape_string($_POST['mail']),
-						'comment'=>mysql_real_escape_string($_POST['text']),
-						'postId'=>intval($idPost)
+						'pseudo'=>$_POST['pseudo'], 
+						'mail'=>$_POST['mail'],
+						'comment'=>$_POST['text'],
+						'postId'=>$idPost
 						));
 					if($ret == 1){
 						$postResult = array(1, 'Erreur lors de l\'envoi de votre commentaire.');
@@ -61,6 +59,7 @@ strlen($_POST['text']) > 300){
 					$postResult = array(1, $message);
 				}
 			}
+			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
 			$postsModel->close();
 			$commentsModel->close();
 			$this->giveVar(compact('postResult'));	
