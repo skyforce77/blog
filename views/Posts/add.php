@@ -2,10 +2,8 @@
 			<script>
 				$.Notify({
 					caption: 'Commentaire',
-					content: '<?= 
-$postResult[1] ?>',
-					type: '<?= 
-$postResult[0] == 1 ? "alert" : "success" ?>',
+					content: '<?= $postResult[1] ?>',
+					type: '<?= $postResult[0] == 1 ? "alert" : "success" ?>',
 					keepOpen: true,
 					icon: "<span class='mif-user'></span>"
 				});

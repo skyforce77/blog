@@ -17,7 +17,7 @@
 				<a class="app-bar-element" href="./"><span class="mif-windows"></span> Accueil</a>
 				<?php
 					if(isset($_SESSION['editor_id'])) {
-						echo html::link('<span class="mif-user"></span> '.ucfirst($_SESSION['editor_id']), array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element place-right'));
+						echo html::link('<span class="mif-user"></span> '.ucfirst($_SESSION['editor_name']), array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element place-right'));
 					} else {
 						echo html::link('Accès rédacteur', array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element place-right'));
 					}

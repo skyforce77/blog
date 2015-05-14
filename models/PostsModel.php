@@ -25,30 +25,41 @@ class PostsModel extends Model{
 		return $result->rowCount();
 	}
 
-	public function addPost($array = array()){
+	public function addPost($array = array()){		
+		if(empty($array)){
+			return 1;
+		}
 		$key = array('title', 'editors_id', 'summary', 'content', 'categories');
 		foreach($key as $value){
 			if(!array_key_exists($value, $array)){
 				return 1;
 			}
 		}
-
-		$req = $this->link->prepare('INSERT INTO posts (title, summary, content, editors_id, date_creation) VALUES (:title, :summary, :content, :editors_id, :date_creation)');
-		$req->execute(array(
+		
+		$req = $this->link->prepare('INSERT INTO posts (title, summary, content, editors_id, date_creation) VALUES (:title, :summary, :content, (SELECT id FROM editors WHERE id=:editors_id), :date_creation)');
+		$res = $req->execute(array(
 			':title' => $array['title'],
 			':summary' => $array['summary'],
-			':content' => $array['conntent'],
+			':content' => $array['content'],
 			':editors_id' => $array['editors_id'],
 			':date_creation' => date("Y-m-d H:i:s")
 			));
-		$lastId = $req->lastInsertId();
+
+		if($res == FALSE){
+			return 1;
+		}
+		$lastId = $this->link->lastInsertId();
 		$req = $this->link->prepare('INSERT INTO posts_categories (posts_id, categories_id) VALUES (:posts_id, :categories_id)');
 		foreach ($array['categories'] as $value) {			
-			$req->execute(array(
+			$res = $req->execute(array(
 				':posts_id' => $lastId,
 				':categories_id' => $value
 				));
+			if($res == FALSE){
+				return 1;
+			}
 		}
+		return 0;
 	}
 }
 

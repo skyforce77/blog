@@ -20,6 +20,7 @@ class CommentsModel extends Model{
 			':posts_id' => $array['postId'],
 			':date_creation' => date("Y-m-d H:i:s")
 			));
+		return 0;
 	}
 }
 

@@ -13,7 +13,7 @@
 			$canEdit = 0;
 			if(isset($post[0])) {
 				$this->giveVar(compact('post'));
-				if(isset($_SESSION['editor_id']) && $post[0]['author'] == $_SESSION['editor_id']) {
+				if(isset($_SESSION['editor_id']) && $post[0]['author'] == $_SESSION['editor_name']) {
 					$canEdit = 1;
 				}
 			}
@@ -131,7 +131,7 @@
 					}
 					
 					if(empty($title) || empty($summary) || empty($content)){
-						$postResult = array(1, "Veillez rempmlir tout les champs.");
+						$postResult = array(1, "Veillez remplir tout les champs.");
 					}
 					else if(empty($catArray)){ // Si aucune categorie n'a été sélectionnée
 						$postResult = array(1, "Veillez selectionner au moins une catégorie.");
@@ -142,19 +142,23 @@
 					else if(strlen($summary) < 30){
 						$postResult = array(1, "Le résumé doit contenir au moins 30 caractères.");
 					}
-					else if(strlen($cotent) < 100){
+					else if(strlen($content) < 100){
 						$postResult = array(1, "Le contenu doit contenir au moins 100 caractères.");
 					}
 					else{
-						$option = array(
-							'title' => $titre,
+						$options = array(
+							'title' => $title,
 							'content' => $content,
 							'summary' => $summary,
-							'editor_id' => $_SESSION['editor_id'];
+							'editors_id' => intval($_SESSION['editor_id']),
 							'categories' => $catArray
 							);
 						$postModel = new PostsModel();
-						$postModel->addPost($options);
+						if($postModel->addPost($options) == 1){
+							$postResult = array(1, "Erreur lors de l'envoi du post. Veuillez réessayer plus tard.");
+						}else{
+							$postResult = array(0, "Le post a bien été ajouté.");
+						}						
 						$postModel->close();
 					}
 				}
@@ -163,6 +167,7 @@
 				//if(isset($_POST['titre']))
 			}
 			
+			$this->giveVar(compact('postResult'));
 			$this->giveVar(compact('categories'));
 			$this->giveVar(compact('canEdit'));
 			$this->display('add');

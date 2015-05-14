@@ -24,7 +24,7 @@
 				$editorModel->close();
 
 				if(!empty($retour)) {
-					$_SESSION['editor_id'] = $login;
+					$_SESSION['editor_id'] = $retour['id'];
 					$_SESSION['editor_name'] = $retour['name'];
 					$_SESSION['editor_email'] = $retour['mail'];
 					$_SESSION['editor_public'] = $retour['public'];
