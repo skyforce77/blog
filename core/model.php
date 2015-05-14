@@ -8,7 +8,7 @@ class Model{
 	protected $link;
 
 
-	public function __construct($tab){
+	function __construct($tab){
 		require('config.php');
 		$this->table = $tab;
 		try {

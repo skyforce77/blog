@@ -6,7 +6,7 @@
 
 			$postResult = null;
 
-			$postsModel = new PostsModel('posts_view');
+			$postsModel = new PostsModel();
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
 			$temp = new Model('comments');			
 
@@ -24,6 +24,9 @@
 
 			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])){
 				$message = "";
+				$mail = htmlspecialchars($_POST['mail']);
+				$pseudo = htmlspecialchars($_POST['pseudo']);
+				$text = htmlspecialchars($_POST['text']);
 				
 				if(isset($_SESSION['dateComment'])){
 					$date = $_SESSION['dateComment'];
@@ -31,20 +34,19 @@
 					if ($diff < 3){
 						$postResult = array(1, 'Vous devez attendre '.intval(3-$diff).'min pour poster un autre commentaire');
 					}
-				} else if(empty($_POST['mail']) && empty($_POST['pseudo']) && empty($_POST['text'])){
+				} else if(empty($mail) || empty($pseudo) || empty($text)){
 					$postResult = array(1, 'Veuillez remplir tout les champs.<br>');
-				} else if(strlen(htmlspecialchars($_POST['pseudo'])) < 4 || strlen(htmlspecialchars($_POST['pseudo'])) > 30){
+				} else if(strlen($pseudo) < 4 || strlen($pseudo) > 30){
 					$postResult = array(1, 'La taille de votre pseudo doit être comprise entre 4 et 30 caractères.<br>');
-				} else if(strlen(htmlspecialchars($_POST['text'])) < 10 || 
-strlen(htmlspecialchars($_POST['text'])) > 300){
+				} else if(strlen($text) < 10 || strlen($text) > 300){
 					$postResult = array(1, 'La taille de votre commentaire doit être comprise entre 10 et 300 caractères.<br>');
-				} else if(!filter_var(htmlspecialchars($_POST['mail']), FILTER_VALIDATE_EMAIL)){
+				} else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
 				   	$postResult = array(1, 'Votre addresse mail est invalide.<br>');
 				} else if(empty($message)){
 					$ret = $commentsModel->sendComment(array(
-						'pseudo'=>$_POST['pseudo'], 
-						'mail'=>$_POST['mail'],
-						'comment'=>$_POST['text'],
+						'pseudo'=>$pseudo, 
+						'mail'=>$mail,
+						'comment'=>$text,
 						'postId'=>$idPost
 						));
 					if($ret == 1){
@@ -72,7 +74,7 @@ strlen(htmlspecialchars($_POST['text'])) > 300){
 
 			$postResult = null;
 
-			$postsModel = new PostsModel('posts_view');
+			$postsModel = new PostsModel();
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
 			$postsModel->close();		
 
@@ -91,7 +93,7 @@ strlen(htmlspecialchars($_POST['text'])) > 300){
 		public function delete($idPost){
 			require_once(ROOT.'models/PostsModel.php');
 
-			$postsModel = new PostsModel('posts_view');
+			$postsModel = new PostsModel();
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
 			$postsModel->close();			
 
@@ -108,11 +110,57 @@ strlen(htmlspecialchars($_POST['text'])) > 300){
 		}
 
 		public function add(){
-			$categories = Layouts::getCategories();
+			require_once(ROOT.'models/CategoriesModel.php');
+			require_once(ROOT.'models/PostsModel.php');
+			$catModel = new CategoriesModel();
+			$categories = $catModel->select();
+			$catModel->close();
+			$catArray = array();
 
 			$canEdit = 0;
 			if(isset($_SESSION['editor_id'])) {
 				$canEdit = 1;
+				if(isset($_POST['title']) && isset($_POST['summary']) && isset($_POST['content'])){
+					$title = htmlspecialchars($_POST['title']);
+					$summary = htmlspecialchars($_POST['summary']);
+					$content = htmlspecialchars($_POST['content']);
+					foreach ($categories as $value) {
+						if(isset($_POST[$value['name']])){
+							array_push($catArray, $value['id']);
+						}
+					}
+					
+					if(empty($title) || empty($summary) || empty($content)){
+						$postResult = array(1, "Veillez rempmlir tout les champs.");
+					}
+					else if(empty($catArray)){ // Si aucune categorie n'a été sélectionnée
+						$postResult = array(1, "Veillez selectionner au moins une catégorie.");
+					}
+					else if(strlen($title) < 5 || strlen($title) > 100){
+						$postResult = array(1, "Le titre doit contenir entre 5 et 10 caractères.");
+					}
+					else if(strlen($summary) < 30){
+						$postResult = array(1, "Le résumé doit contenir au moins 30 caractères.");
+					}
+					else if(strlen($cotent) < 100){
+						$postResult = array(1, "Le contenu doit contenir au moins 100 caractères.");
+					}
+					else{
+						$option = array(
+							'title' => $titre,
+							'content' => $content,
+							'summary' => $summary,
+							'editor_id' => $_SESSION['editor_id'];
+							'categories' => $catArray
+							);
+						$postModel = new PostsModel();
+						$postModel->addPost($options);
+						$postModel->close();
+					}
+				}
+				
+
+				//if(isset($_POST['titre']))
 			}
 			
 			$this->giveVar(compact('categories'));

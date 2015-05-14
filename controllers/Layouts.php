@@ -2,7 +2,7 @@
 	class Layouts extends Controller{
 		public static function getCategories(){
 			require_once(ROOT.'models/CategoriesModel.php');
-			$categoriesModel = new CategoriesModel('categories');
+			$categoriesModel = new CategoriesModel();
 			$ret = $categoriesModel->select();
 			$categoriesModel->close();
 			return $ret;

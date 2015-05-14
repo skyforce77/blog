@@ -1,4 +1,4 @@
-<?php if($postResult != null): ?>
+<?php if(!empty($postResult)): ?>
 			<script>
 				$.Notify({
 					caption: 'Commentaire',

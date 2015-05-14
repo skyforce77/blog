@@ -1,3 +1,17 @@
+<?php if(!empty($postResult)): ?>
+			<script>
+				$.Notify({
+					caption: 'Commentaire',
+					content: '<?= 
+$postResult[1] ?>',
+					type: '<?= 
+$postResult[0] == 1 ? "alert" : "success" ?>',
+					keepOpen: true,
+					icon: "<span class='mif-user'></span>"
+				});
+			</script>
+<?php endif ?>
+
 <div class="container page-content">
 	<br>
 	<?php if($canEdit == 1): ?>
@@ -6,7 +20,7 @@
 							<span class="title text-shadow">Créer un post</span>
 				    	</div>
 				    	<div class="content">
-							<form action="#" method="POST">
+							<form action="" method="POST">
 								<div class="input-control text">
 									<input type="text" name="title" placeholder="Titre">
 								</div>
@@ -14,7 +28,7 @@
 								<?php foreach ($categories as $categorie) { ?>
 									<label class="switch">
 										<p><?= $categorie['name'] ?>
-											<input type="checkbox" name="<?= $categorie['id'] ?>">
+											<input type="checkbox" name="<?= $categorie['name'] ?>">
 											<span class="check"></span>
 										</p>
 									</label>
