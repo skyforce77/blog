@@ -113,17 +113,6 @@ class Model{
 		$res->execute();
 	}
 
-	
-	public function setTable($value){
-		$this->table = $value;
-	}
-	public function getTable(){
-		return $this->table;
-	}
-	public function getLink(){
-		return $this->link;
-	}
-
 	public function close(){
 		if($this->link != null){
 			$this->link = null;
