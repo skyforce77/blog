@@ -8,7 +8,8 @@
 
 			$postsModel = new PostsModel();
 			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			$temp = new Model('comments');			
+			$temp = new Model('comments');
+			$postResult = array();		
 
 			$canEdit = 0;
 			if(isset($post[0])) {
@@ -34,7 +35,8 @@
 					if ($diff < 3){
 						$postResult = array(1, 'Vous devez attendre '.intval(3-$diff).'min pour poster un autre commentaire');
 					}
-				} else if(empty($mail) || empty($pseudo) || empty($text)){
+				}
+				if(empty($mail) || empty($pseudo) || empty($text)){
 					$postResult = array(1, 'Veuillez remplir tout les champs.<br>');
 				} else if(strlen($pseudo) < 4 || strlen($pseudo) > 30){
 					$postResult = array(1, 'La taille de votre pseudo doit être comprise entre 4 et 30 caractères.<br>');
@@ -42,7 +44,7 @@
 					$postResult = array(1, 'La taille de votre commentaire doit être comprise entre 10 et 300 caractères.<br>');
 				} else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
 				   	$postResult = array(1, 'Votre addresse mail est invalide.<br>');
-				} else if(empty($message)){
+				} else{
 					$ret = $commentsModel->sendComment(array(
 						'pseudo'=>$pseudo, 
 						'mail'=>$mail,
@@ -55,8 +57,6 @@
 						$postResult = array(0, 'Votre commentaire a été posté.');
 						$_SESSION['dateComment'] = time();
 					}
-				}else{
-					$postResult = array(1, $message);
 				}
 			}
 			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
