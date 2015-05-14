@@ -1,3 +1,4 @@
+<?php print_r($postResult); ?>
 <?php if($postResult != null): ?>
 			<script>
 				$.Notify({
@@ -69,7 +70,7 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 							<span class="title text-shadow">Poster un commentaire</span>
 				    	</div>
 				    	<div class="content">
-							<form action="#" method="POST">
+							<form action="" method="POST">
 								<div class="input-control text">
 									<?php if($postResult != null && $postResult[0] == 1): ?>
 										<input type="text" name="mail" placeholder="Adresse mail" value="<?= $_POST['mail'] ?>">
