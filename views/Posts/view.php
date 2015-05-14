@@ -1,5 +1,4 @@
-<?php print_r($postResult); ?>
-<?php if($postResult != null): ?>
+<?php if(!empty($postResult)): ?>
 			<script>
 				$.Notify({
 					caption: 'Commentaire',
@@ -27,7 +26,7 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 			  <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $post[0]['nbr_comments'] ?></span><br>
 			  <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $post[0]['categories'] ?></span><br>
 			</div>
-				<p><?= $post[0]['content'] ?></p><br>
+				<p style="word-wrap: break-word;"><?= $post[0]['content'] ?></p><br>
 				<?php if($canEdit == 1): ?>
 					<?= html::link('<span class="mif-pencil"></span> Editer', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
 					<?= html::link('<span class="mif-bin"></span> Supprimer', array('controller'=>'Posts', 'view'=>'delete', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
@@ -51,9 +50,9 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 					      foreach ($comments as $value) {
 					 ?>
 					    <blockquote>
-							<p><?= htmlspecialchars($value['content']) ?></p>
+							<p><?= $value['content'] ?></p>
 							<small>
-								Par <strong><?= htmlspecialchars($value['author']) ?></strong> le <?= $value['date_creation'] ?>
+								Par <strong><?= $value['author'] ?></strong> le <?= $value['date_creation'] ?>
 							</small>
 						</blockquote>
 					    <br>

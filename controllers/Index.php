@@ -33,6 +33,8 @@
 			
 			if($param['order'] != null){
 				$order = "ORDER BY ".$param['order']." ";
+			}else{
+				$order = "ORDER BY date_creation DESC ";
 			}
 			if(isset($_GET['categorie']) && $_GET['categorie'] != 'Toutes les catégories'){
 				$where = " where categories.id = ".$_GET['categorie']." ";

@@ -44,7 +44,7 @@
         <span class="title text-shadow"><?= $value['title'] ?></span>
         <span class ="date place-right text-secondary padding-right10"><span class="mif-calendar mif-lg"></span> <?= $value['date_creation'] ?></span><br>
       </div>
-      <div class="content">
+      <div class="content" style="word-wrap: break-word;">
         <div class="post_info text-small">
           <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $value['nbr_comments'] ?></span><br>
           <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $value['categories'] ?></span><br>

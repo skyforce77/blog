@@ -16,16 +16,18 @@
 			if(isset($_POST['login']) && isset($_POST['passwd'])) {
 				require_once(ROOT.'models/EditorsModel.php');
 				$editorModel = new EditorsModel('editors');
+
 				$passwd = md5($_POST['passwd']);
+				$login = htmlspecialchars($_POST['login']);
+
 				$retour = $editorModel->checkUser($_POST['login'],$passwd);
 				$editorModel->close();
 
-				
-				if($retour != null) {
-					$_SESSION['editor_id'] = $_POST['login'];
-					$_SESSION['editor_name'] = $retour[0]['name'];
-					$_SESSION['editor_email'] = $retour[0]['mail'];
-					$_SESSION['editor_public'] = $retour[0]['public'];
+				if(!empty($retour)) {
+					$_SESSION['editor_id'] = $retour['id'];
+					$_SESSION['editor_name'] = $retour['name'];
+					$_SESSION['editor_email'] = $retour['mail'];
+					$_SESSION['editor_public'] = $retour['public'];
 					$login_state = 0;
 				} else {
 					$login_state = 1;

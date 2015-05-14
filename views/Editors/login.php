@@ -37,14 +37,14 @@
 			<br>
 			<h1 class="text-light">Connecté</h1>
 			<hr class="bg-teal">
-			<form action="#" method="POST">
+			<form action="" method="POST">
 				<input type="hidden" name="logout" value="">
 				<?php echo html::link('<span class="mif-pencil"></span> Nouvel article', array('controller'=>'Posts', 'view'=>'add'), array('class'=>'button')); ?>
 				<button class="button" type="submit"><span class="mif-switch"></span> Se déconnecter</button>
 			</form>
 			<br>
 		<?php else: ?>
-			<form action="#" method="POST">
+			<form action="" method="POST">
 				<h1 class="text-light">Connexion</h1>
 				<hr class="bg-teal">
 				<br>
