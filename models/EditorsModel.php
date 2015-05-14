@@ -1,16 +1,23 @@
 <?php
 
 class EditorsModel extends Model{
-	public function checkUser($login = null,$pass){
-		$ret = $this->select(array(), array('conditions' => 'name = '.intval($_POST['login'].'')));
-		if(count($ret) == 0){
+	public function checkUser($login ,$pass){
+		$query = $this->link->prepare('SELECT * FROM editors WHERE name = :name ;');
+		$query->execute(array(':name'=>$login));
+		$ret = $query->fetchAll();
+		
+		if(empty($ret)){
 			return null;
-		}
-		if($ret[0]['password'] != $pass){
-			return null;
+		}else{			
+			$ret = $ret[0];
 		}
 
-		return $ret;
+
+		if($ret['password'] === $pass){
+			return $ret;
+		}else{
+			return null;
+		}
 	}
 }
 ?>
