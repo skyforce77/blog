@@ -93,20 +93,32 @@
 
 		public function delete($idPost){
 			require_once(ROOT.'models/PostsModel.php');
-
 			$postsModel = new PostsModel();
-			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			$postsModel->close();			
-
-			$canEdit = 0;
-			if(isset($post[0])) {
-				$this->giveVar(compact('post'));
-				if(isset($_SESSION['editor_id']) && $post[0]['author'] == $_SESSION['editor_id']) {
-					$canEdit = 1;
-				}
+			$result = $postsModel->selectById($idPost);
+			$author = null;
+			print_r($result);
+			if(empty($result)){
+				$postResult = array(1 , "Ce post n'existe pas.");
+			}else{
+				$author = $result[0]['author'];
 			}
 
-			$this->giveVar(compact('canEdit'));
+			$canEdit = null;
+			print_r($author);
+			print_r('<br>'.$_SESSION['editor_name']);
+			if(isset($_SESSION['editor_id']) && $author == $_SESSION['editor_name']){
+				if($postsModel->deletePost($idPost) == false){
+					$postResult = array(1 , "Erreur lors de la supression du post.");
+				}else{
+					$postResult = array(0 , "");
+				}
+			}else{
+				$postResult = array(1 , "Vous devez vous connecter en temps qu'auteur du post pour le supprimer");
+			}
+			
+			$postsModel->close();
+
+			$this->giveVar(compact('postResult'));
 			$this->display('delete');		
 		}
 

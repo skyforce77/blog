@@ -15,6 +15,15 @@ class PostsModel extends Model{
 		return $result->fetchAll();
 	}
 
+	public function selectById($id){
+		$sql = 'select *
+		from posts_view where id = :id';
+		$query = $this->link->prepare($sql);
+		$query->execute(array(':id' => $id));
+		$res =$query->fetchAll();
+		return $res;
+	}
+
 	public function countPosts($where){
 		$sql = 'select *
 		from categories 
@@ -60,6 +69,12 @@ class PostsModel extends Model{
 			}
 		}
 		return 0;
+	}
+
+	public function deletePost($id){
+		$query = $this->link->prepare('DELETE FROM posts WHERE id = :id');
+		$res = $query->execute(array(':id' => $id));
+		return $res;
 	}
 }
 

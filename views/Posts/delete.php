@@ -1,6 +1,6 @@
 <div class="container page-content">
 	<br>
-	<?php if(isset($post[0]) && $canEdit == 1): ?>
+	<?php if($postResult[0] == 0): ?>
 		    <div class="panel border-black">
 						<div class="heading">
 							<span class="title text-shadow">Tentative de supression</span>
@@ -11,6 +11,6 @@
 				    </div>
 		    </div>
 	<?php else: ?>
-		<h3><span class="mif-warning fg-orange"></span> Vous ne pouvez pas effectuer cette action</h3>
+		<h3><span class="mif-warning fg-orange"></span><?= $postResult[1] ?></h3>
 	<?php endif ?>
 </div>
