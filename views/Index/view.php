@@ -89,7 +89,7 @@
       }else{
         echo "<span class='item disabled'><</span>";
       }
-      if(isset($_GET['page']) && $nbrPages > 0){
+      if($nbrPages > 0){
         for($i=1; $i<=($nbrPages); $i++){
           $current = "";
           if($_GET['page'] == $i){
