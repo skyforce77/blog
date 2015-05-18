@@ -96,6 +96,7 @@
 			$postsModel = new PostsModel();
 			$result = $postsModel->selectById($idPost);
 			$author = null;
+			$postResult = array();
 			if(empty($result)){
 				$postResult = array(1 , "Ce post n'existe pas.");
 			}else{
@@ -110,7 +111,7 @@
 				}else{
 					$postResult = array(0 , "");
 				}
-			}else{
+			}else if(empty($postResult) && $author != $_SESSION['editor_name']){
 				$postResult = array(1 , "Vous devez vous connecter en temps qu'auteur du post pour le supprimer");
 			}
 			
