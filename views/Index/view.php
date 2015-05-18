@@ -4,7 +4,7 @@
     <div class="tabcontrol tabs-bottom" data-role="tabControl">
       <ul class="tabs">
         <li><a href="#sort">Tri</a></li>
-        <li><a href="#com">Commentaires</a></li>
+        <li><a href="#stat">Statistiques</a></li>
       </ul>
       <div class="frames">
         <div class="frame" id="sort">
@@ -37,7 +37,7 @@
             <input type="submit" value="Trier">
           </form>
         </div>
-        <div class="frame" id="com">
+        <div class="frame" id="stat">
           <!-- TODO -->
         </div>
       </div>

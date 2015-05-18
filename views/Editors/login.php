@@ -57,7 +57,7 @@
 				</div>
 				<br>
 				<input class="button" type="submit" value="Se connecter">
-				<?php echo html::link('S\'enregistrer', array('controller'=>'Editors', 'view'=>'signIn'), array('class'=>'button')); ?>
+				<?php echo html::link('S\'enregistrer', array('controller'=>'Editors', 'view'=>'signIn'), array('class'=>'button info fg-white')); ?>
 			</form>
 		<?php endif ?>
 	</div>
