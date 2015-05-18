@@ -1,7 +1,7 @@
 <div class="container page-content">
   <div class="sort_bar" style = "margin-top:30px;">
     <!-- début tab -->
-    <div class="tabcontrol tabs-bottom" data-role="tabControl">
+    <div class="tabcontrol2 tabs-bottom" data-role="tabControl">
       <ul class="tabs">
         <li><a href="#sort">Tri</a></li>
         <li><a href="#stat">Statistiques</a></li>
@@ -38,7 +38,17 @@
           </form>
         </div>
         <div class="frame" id="stat">
-          <!-- TODO -->
+          <table>
+            <tr>
+              <th>Catégorie</th>
+              <th>Nombre d'articles</th>
+            </tr>
+            <?php
+              foreach ($stats_categories as $key => $value) {
+                echo '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td></tr>';
+              }
+            ?>
+          </table>
         </div>
       </div>
     </div>
