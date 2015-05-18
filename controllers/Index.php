@@ -4,6 +4,10 @@
 			require_once(ROOT.'models/PostsModel.php');
 			$sessionStatu = controller::check_session();
 			$postsModel = new PostsModel();
+
+			$categoriesModel = new CategoriesModel();
+			$statsCategories = $categoriesModel->countByName();
+			
 			$param = array('order' => 'date_creation DESC');
 			$left_limit = 0;
 			$offset = 10;
@@ -44,7 +48,10 @@
 			$nbrPosts = $postsModel->countPosts($where);
 			
 			$nbrPages = $nbrPosts/$offset;
+			if($nbrPosts%$offset>0)
+				$nbrPages+=1;
 			
+			$this->giveVar(compact('statsCategories'));
 			$this->giveVar(compact('nbrPages'));
 			$this->giveVar(compact('posts'));
 			$this->display('view');

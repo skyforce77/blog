@@ -46,6 +46,14 @@
 		public function signIn(){
 			
 			//On verifie que l'utilisateur est déconnecté
+			if(isset($_SESSION['editor_id'])){
+				$postResult = array(1, 'Vous êtes déjà connecté en tant qu\''.$_SESSION['editor_name'].'.');
+			}
+			$name =
+			$passwd
+			$mail
+
+
 			$sign_state = 3;
 			$this->giveVar(compact('sign_state'));
 			$this->display('signIn');

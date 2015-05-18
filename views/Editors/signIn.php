@@ -1,8 +1,8 @@
-<?php if($sign_state == 1): ?>
+<?php if($postResult[0] == 1): ?>
 			<script>
 				$.Notify({
-					caption: 'Enregistrement',
-					content: 'L\'enregistrement a échoué',
+					caption: 'L\'enregistrement a échoué',
+					content: '<?= $postResult[1] ?>',
 					type: 'alert',
 					icon: "<span class='mif-user'></span>"
 				});
@@ -11,8 +11,8 @@
 <?php if($sign_state == 0): ?>
 			<script>
 				$.Notify({
-					caption: 'Enregistrement',
-					content: 'Enregistrement effectué',
+					caption: 'Enregistrement effectué',
+					content: '<?= $postResult[1] ?>',
 					type: 'success',
 					icon: "<span class='mif-user'></span>"
 				});
