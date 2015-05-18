@@ -18,7 +18,7 @@
 							<span class="title text-shadow">Créer un post</span>
 				    	</div>
 				    	<div class="content">
-							<form action="" method="POST">
+							<form action="#" method="POST">
 								<div class="input-control text">
 									<input type="text" name="title" placeholder="Titre">
 								</div>
