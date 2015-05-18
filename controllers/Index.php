@@ -3,8 +3,8 @@
 		public function view(){
 			require_once(ROOT.'models/PostsModel.php');
 			$sessionStatu = controller::check_session();
-			$postsModel = new PostsModel('posts_view');
-			$param = null;
+			$postsModel = new PostsModel();
+			$param = array('order' => 'date_creation DESC');
 			$left_limit = 0;
 			$offset = 10;
 			$where = "";
@@ -43,7 +43,7 @@
 			$posts = $postsModel->getPosts($where, $order, $left_limit, $offset);			
 			$nbrPosts = $postsModel->countPosts($where);
 			
-			$nbrPages = $nbrPosts%$offset;
+			$nbrPages = $nbrPosts/$offset;
 			
 			$this->giveVar(compact('nbrPages'));
 			$this->giveVar(compact('posts'));

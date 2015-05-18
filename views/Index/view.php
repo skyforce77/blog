@@ -79,31 +79,24 @@
 
     <div class="pagination">
       <?php
-      $options = "";
-      if(isset($_GET['page']) && count($_GET)>0){        
-        foreach ($_GET as $key => $value) {
-          if($key != "page")
-            $options .= "&".$key."=".$value;
-        }
+      $options = "";      
+      foreach ($_GET as $key => $value) {
+        if($key != "page")
+          $options .= "&".$key."=".$value;
       }
       if(isset($_GET['page']) && $_GET['page'] > 1){
         echo "<a class='item' href='?page=".($_GET['page']-1).$options."'><</a>";
       }else{
         echo "<span class='item disabled'><</span>";
       }
-      if(isset($_GET['page'])){
-        if($nbrPages == 0){
-          echo "<span class='item current'>1</span>";
-        }
-        else{        
-           for($i=1; $i<=($nbrPages); $i++){
-              $current = "";
-              if($_GET['page'] == $i){
-                $current = "current";
-              }
-              echo "<a class='item ".$current."' href='?page=".$i.$options."' >".$i."</a>";
+      if(isset($_GET['page']) && $nbrPages > 0){
+        for($i=1; $i<=($nbrPages); $i++){
+          $current = "";
+          if($_GET['page'] == $i){
+            $current = "current";
           }
-        } 
+          echo "<a class='item ".$current."' href='?page=".$i.$options."' >".$i."</a>";
+        }
       }else{
         echo "<span class='item current'>1</span>";
       }
