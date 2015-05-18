@@ -44,7 +44,7 @@
 			</form>
 			<br>
 		<?php else: ?>
-			<form action="" method="POST">
+			<form action="#" method="POST">
 				<h1 class="text-light">Connexion</h1>
 				<hr class="bg-teal">
 				<br>

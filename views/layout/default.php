@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -27,9 +28,6 @@
 			</div>
 		</header>
 
-			<?php echo $layoutContent; ?>
-
-		<foot>
-		</foot>
+		<?php echo $layoutContent; ?>
 	</body>
 </html>

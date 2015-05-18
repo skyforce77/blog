@@ -8,7 +8,7 @@
       </ul>
       <div class="frames">
         <div class="frame" id="sort">
-          <form action="" class="sort_form" method="get">
+          <form action="#" class="sort_form" method="get">
             <label>Categories</label>
             <div class="input-control select">
               <select name="categorie" >
@@ -99,9 +99,9 @@
           $options .= "&".$key."=".$value;
       }
       if(isset($page) && $page > 1){
-        echo "<a class='item' href='?page=".($page-1).$options."'><</a>";
+        echo "<a class='item' href='?page=".($page-1).$options."'>&lt;</a>";
       }else{
-        echo "<span class='item disabled'><</span>";
+        echo "<span class='item disabled'>&lt;</span>";
       }
       if($nbrPages > 0){
         for($i=1; $i<=($nbrPages); $i++){
@@ -119,7 +119,7 @@
       if(isset($page) && $page < $nbrPages){        
         echo "<a class='item' href='?page=".($page+1).$options."'>></a>";
       }else{
-        echo "<span class='item disabled'>></span>";
+        echo "<span class='item disabled'>&lt;</span>";
       }
 ?>
 
