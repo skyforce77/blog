@@ -79,20 +79,24 @@
 
     <div class="pagination">
       <?php
-      $options = "";      
+      $options = "";
+      $page = 1;
+      if(isset($_GET['page']))
+        $page = $_GET['page']; 
+
       foreach ($_GET as $key => $value) {
         if($key != "page")
           $options .= "&".$key."=".$value;
       }
-      if(isset($_GET['page']) && $_GET['page'] > 1){
-        echo "<a class='item' href='?page=".($_GET['page']-1).$options."'><</a>";
+      if(isset($page) && $page > 1){
+        echo "<a class='item' href='?page=".($page-1).$options."'><</a>";
       }else{
         echo "<span class='item disabled'><</span>";
       }
       if($nbrPages > 0){
         for($i=1; $i<=($nbrPages); $i++){
           $current = "";
-          if($_GET['page'] == $i){
+          if($page == $i){
             $current = "current";
           }
           echo "<a class='item ".$current."' href='?page=".$i.$options."' >".$i."</a>";
@@ -102,8 +106,8 @@
       }
          
     
-      if(isset($_GET['page']) && $_GET['page'] < $nbrPages){        
-        echo "<a class='item' href='?page=".($_GET['page']+1).$options."'>></a>";
+      if(isset($page) && $page < $nbrPages){        
+        echo "<a class='item' href='?page=".($page+1).$options."'>></a>";
       }else{
         echo "<span class='item disabled'>></span>";
       }
