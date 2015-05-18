@@ -48,17 +48,21 @@
 			$editorsModel = new EditorsModel();
 			//On verifie que l'utilisateur est déconnecté
 			$postResult = array();
-			print_r($_POST);
 
 			if(isset($_SESSION['editor_id'])){
 				$postResult = array(1, 'Vous êtes déjà connecté en tant qu\''.$_SESSION['editor_name'].'.');
 			}
-			if(isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['mail2']) && isset($_POST['passwd']) && isset($_POST['passwd2']) && isset($_POST['public'])){
+			if(isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['mail2']) && isset($_POST['passwd']) && isset($_POST['passwd2'])){
 				$login = htmlspecialchars($_POST['login']);
 				$passwd = md5(htmlspecialchars($_POST['passwd']));
 				$passwd2 = md5(htmlspecialchars($_POST['passwd2']));
 				$mail = htmlspecialchars($_POST['mail']);
 				$mail2 = htmlspecialchars($_POST['mail2']);
+				$public = 0;
+
+				if(isset($_POST['public'])){
+					$public = 1;
+				}
 
 				if (empty($login) || empty($passwd) || empty($passwd2) || empty($mail) || empty($mail2)) {
 					$postResult = array(1, "Tout les champs doivent être remplis.");
@@ -78,12 +82,17 @@
 				else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
 					$postResult = array(1, "Votre maile est invalide.");
 				}
-				else if($editorsModel->pseudoExist() == true){
+				else if($editorsModel->pseudoExist($login) == true){
 					$postResult = array(1, "Ce pseudo est déjà pris.");
 				}
 				else{
-					$editorsModel->addEditor($login, $passwd, $mail, $public);
+					if($editorsModel->addEditor($login, $passwd, $mail, $public)==false){
+						$postResult = array(1, "Erreur dans la base de donnée. Réessayez plus tard.");
+					}else{
+						$postResult = array(0, "Bienvue ".$login.". Vous pouvez rediger un post dès maintenant.");
+					}
 				}
+				$editorsModel->close();
 			}
 			
 			$sign_state = 3;
