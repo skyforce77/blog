@@ -38,7 +38,17 @@
           </form>
         </div>
         <div class="frame" id="stat">
-          <!-- TODO -->
+          <table>
+            <tr>
+              <th>Catégorie</th>
+              <th>Nombre d'articles</th>
+            </tr>
+            <?php
+              foreach ($stats_categories as $key => $value) {
+                echo '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td></tr>';
+              }
+            ?>
+          </table>
         </div>
       </div>
     </div>
