@@ -1,33 +1,48 @@
 <div class="container page-content">
   <div class="sort_bar" style = "margin-top:30px;">
-    <form action="" class="sort_form" method="get">
-        <label>Categories</label>
-	<div class="input-control select">
-	<select name="categorie" >
-          <option>Toutes les catégories</option>
-          <?php
-            $categories = Layouts::getCategories();
-            foreach ($categories as $value) {
-              $selected = '';
-              if(isset($_GET['categorie']) && $_GET['categorie'] == $value['id'])
-                $selected = 'selected';
-              echo '<option value="'.$value['id'].'"'.$selected.'>'.$value['name'].'</option>';
-            }
+    <!-- début tab -->
+    <div class="tabcontrol tabs-bottom" data-role="tabControl">
+      <ul class="tabs">
+        <li><a href="#sort">Tri</a></li>
+        <li><a href="#com">Commentaires</a></li>
+      </ul>
+      <div class="frames">
+        <div class="frame" id="sort">
+          <form action="" class="sort_form" method="get">
+            <label>Categories</label>
+            <div class="input-control select">
+              <select name="categorie" >
+                <option>Toutes les catégories</option>
+                <?php
+                  $categories = Layouts::getCategories();
+                  foreach ($categories as $value) {
+                    $selected = '';
+                    if(isset($_GET['categorie']) && $_GET['categorie'] == $value['id'])
+                      $selected = 'selected';
+                    echo '<option value="'.$value['id'].'"'.$selected.'>'.$value['name'].'</option>';
+                  }
 
-          ?>
-        </select>
-	</div>
-        <label>Trier par</label>
-	<div class="input-control select">
-		<select name="sort">
-			<option>Plus récent</option>
-			<option>Moins récent</option>
-			<option>Auteur A-Z</option>
-			<option>Auteur Z-A</option> 
-		</select>
-	</div>
-        <input type="submit" value="Trier">
-    </form>
+                ?>
+              </select>
+            </div>
+            <label>Trier par</label>
+            <div class="input-control select">
+              <select name="sort">
+                <option>Plus récent</option>
+                <option>Moins récent</option>
+                <option>Auteur A-Z</option>
+                <option>Auteur Z-A</option> 
+              </select>
+            </div>
+            <input type="submit" value="Trier">
+          </form>
+        </div>
+        <div class="frame" id="com">
+          <!-- TODO -->
+        </div>
+      </div>
+    </div>
+    <!-- fin tab -->
   </div>
 
   <?php

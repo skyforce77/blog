@@ -46,6 +46,9 @@
 		public function signIn(){
 			
 			//On verifie que l'utilisateur est déconnecté
+			$sign_state = 3;
+			$this->giveVar(compact('sign_state'));
+			$this->display('signIn');
 		}
 
 		public function edit(){
