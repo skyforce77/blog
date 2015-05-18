@@ -6,7 +6,11 @@ class CategoriesModel extends Model{
 	}
 
 	public function countByName(){
-		$this->link->prepare("SELECT name, COUNT(sele");
+		$query = $this->link->prepare("SELECT name, (select count(*) from posts_categories where categories_id = categories.id) AS count 
+			FROM categories 
+			INNER JOIN posts_categories ON categories.id = posts_categories.categories_id group by name order by name ASC;");
+		$query->execute();
+		return $query->fetchAll();
 	}
 }
 

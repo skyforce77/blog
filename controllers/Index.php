@@ -2,6 +2,8 @@
 	class Index extends Controller{
 		public function view(){
 			require_once(ROOT.'models/PostsModel.php');
+			require_once(ROOT.'models/CategoriesModel.php');
+
 			$sessionStatu = controller::check_session();
 			$postsModel = new PostsModel();
 
