@@ -15,13 +15,13 @@
 			$login_state = 3;
 			if(isset($_POST['login']) && isset($_POST['passwd'])) {
 				require_once(ROOT.'models/EditorsModel.php');
-				$editorModel = new EditorsModel('editors');
+				$editorsModel = new EditorsModel();
 
 				$passwd = md5($_POST['passwd']);
 				$login = htmlspecialchars($_POST['login']);
 
-				$retour = $editorModel->checkUser($_POST['login'],$passwd);
-				$editorModel->close();
+				$retour = $editorsModel->checkUser($_POST['login'],$passwd);
+				$editorsModel->close();
 
 				if(!empty($retour)) {
 					$_SESSION['editor_id'] = $retour['id'];
@@ -44,18 +44,50 @@
 		}
 
 		public function signIn(){
-			
+			require_once(ROOT.'models/EditorsModel.php');
+			$editorsModel = new EditorsModel();
 			//On verifie que l'utilisateur est déconnecté
+			$postResult = array();
+			print_r($_POST);
+
 			if(isset($_SESSION['editor_id'])){
 				$postResult = array(1, 'Vous êtes déjà connecté en tant qu\''.$_SESSION['editor_name'].'.');
 			}
-			$name =
-			$passwd
-			$mail
+			if(isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['mail2']) && isset($_POST['passwd']) && isset($_POST['passwd2']) && isset($_POST['public'])){
+				$login = htmlspecialchars($_POST['login']);
+				$passwd = md5(htmlspecialchars($_POST['passwd']));
+				$passwd2 = md5(htmlspecialchars($_POST['passwd2']));
+				$mail = htmlspecialchars($_POST['mail']);
+				$mail2 = htmlspecialchars($_POST['mail2']);
 
-
+				if (empty($login) || empty($passwd) || empty($passwd2) || empty($mail) || empty($mail2)) {
+					$postResult = array(1, "Tout les champs doivent être remplis.");
+				}
+				else if(strlen($login) < 5 || strlen($login) > 30){
+					$postResult = array(1, "Le login doit avoir entre 5 et 30 caractères.");
+				}
+				else if ($passwd != $passwd2) {
+					$postResult = array(1, "Les deux mots de passes sont différents.");
+				}
+				else if ($mail != $mail2) {
+					$postResult = array(1, "Les deux mails sont différents.");
+				}
+				else if(strlen(htmlspecialchars($_POST['passwd'])) < 5 || strlen(htmlspecialchars($_POST['passwd'])) > 30){
+					$postResult = array(1, "Les mot de passe doit faire entre 5 et 30 caractères.");
+				}
+				else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
+					$postResult = array(1, "Votre maile est invalide.");
+				}
+				else if($editorsModel->pseudoExist() == true){
+					$postResult = array(1, "Ce pseudo est déjà pris.");
+				}
+				else{
+					$editorsModel->addEditor($login, $passwd, $mail, $public);
+				}
+			}
+			
 			$sign_state = 3;
-			$this->giveVar(compact('sign_state'));
+			$this->giveVar(compact('postResult'));
 			$this->display('signIn');
 		}
 

@@ -1,4 +1,4 @@
-<?php if($postResult[0] == 1): ?>
+<?php if(!empty($postResult) && $postResult[0] == 1): ?>
 			<script>
 				$.Notify({
 					caption: 'L\'enregistrement a échoué',
@@ -8,7 +8,7 @@
 				});
 			</script>
 <?php endif ?>
-<?php if($sign_state == 0): ?>
+<?php if(!empty($postResult) && $postResult[0] == 0): ?>
 			<script>
 				$.Notify({
 					caption: 'Enregistrement effectué',
