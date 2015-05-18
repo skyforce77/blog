@@ -96,7 +96,6 @@
 			$postsModel = new PostsModel();
 			$result = $postsModel->selectById($idPost);
 			$author = null;
-			print_r($result);
 			if(empty($result)){
 				$postResult = array(1 , "Ce post n'existe pas.");
 			}else{
@@ -104,11 +103,10 @@
 			}
 
 			$canEdit = null;
-			print_r($author);
-			print_r('<br>'.$_SESSION['editor_name']);
 			if(isset($_SESSION['editor_id']) && $author == $_SESSION['editor_name']){
 				if($postsModel->deletePost($idPost) == false){
 					$postResult = array(1 , "Erreur lors de la supression du post.");
+					die();
 				}else{
 					$postResult = array(0 , "");
 				}

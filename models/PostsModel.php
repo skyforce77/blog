@@ -1,6 +1,17 @@
 <?php
 
 class PostsModel extends Model{
+
+	private $id;
+	private $title;	
+	private $content;
+	private $summary;
+	private $author;
+	private $date_creation;
+	private $categories;
+	private $nbrComments;
+
+
 	function __construct(){
 		parent::__construct('posts_view');
 	}
