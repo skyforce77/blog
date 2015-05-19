@@ -8,14 +8,13 @@
 			$postResult = null;
 
 			$postsModel = new PostsModel();
-			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
-			$temp = new Model('comments');
-			$postResult = array();		
-
+			$post = $postsModel->selectById($idPost);
+			$temp = new CommentsModel();
+			$postResult = array();
 			$canEdit = 0;
-			if(isset($post[0])) {
+			if(!empty($post->getId())) {
 				$this->giveVar(compact('post'));
-				if(isset($_SESSION['editor_id']) && $post[0]['author'] == $_SESSION['editor_name']) {
+				if(isset($_SESSION['editor_id']) && $post->getAuthor() == $_SESSION['editor_name']) {
 					$canEdit = 1;
 				}
 			}
@@ -66,7 +65,7 @@
 			$commentsModel->close();
 
 			$editorsModel = new EditorsModel();
-			$user = $editorsModel->getUserByName($post[0]['author']);
+			$user = $editorsModel->getUserByName($post->getAuthor());
 			$editorsModel->close();
 
 			if(!empty($user))

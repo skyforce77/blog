@@ -15,21 +15,22 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 <div class="container page-content">
 	<br>
 	<br>
-	<?php if(isset($post[0])): ?>
+
+	<?php if(!empty($post->getId())): ?>
 		    <div class="panel border-black">
 				<div class="heading">
-					<span class="title text-shadow"><?= $post[0]['title'] ?></span>
-					<span class ="date place-right text-secondary padding-right10"><span class="mif-calendar mif-lg"></span> <?= $post[0]['date_creation'] ?></span><br>
+					<span class="title text-shadow"><?= $post->getTitle() ?></span>
+					<span class ="date place-right text-secondary padding-right10"><span class="mif-calendar mif-lg"></span> <?= $post->getDateCreation() ?></span><br>
 		    	</div>
 		    	<div class="content">
 				<div class="post_info text-small">
-			  <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $post[0]['nbr_comments'] ?></span><br>
-			  <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $post[0]['categories'] ?></span><br>
+			  <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $post->getTitle() ?></span><br>
+			  <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $post->getCategories() ?></span><br>
 			</div>
-				<p style="word-wrap: break-word;"><?= $post[0]['content'] ?></p><br>
+				<p style="word-wrap: break-word;"><?= $post->getContent() ?></p><br>
 				<?php if($canEdit == 1): ?>
-					<?= html::link('<span class="mif-pencil"></span> Editer', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
-					<?= html::link('<span class="mif-bin"></span> Supprimer', array('controller'=>'Posts', 'view'=>'delete', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
+					<?= html::link('<span class="mif-pencil"></span> Editer', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post->getId()), array('class'=>'button')) ?>
+					<?= html::link('<span class="mif-bin"></span> Supprimer', array('controller'=>'Posts', 'view'=>'delete', 'params'=>$post->getId()), array('class'=>'button')) ?>
 				<?php else: ?>
 					<?= html::link('<span class ="author text-small"><span class="mif-user"></span> '.$user['name'], array('controller'=>'Editors', 'view'=>'profil', 'params'=>$user['id'])) ?>
 				<?php endif ?>

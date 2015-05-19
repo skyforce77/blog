@@ -66,19 +66,19 @@
   ?>
     <div class="panel border-black" style="margin-top:30px;">
       <div class="heading">
-        <span class="title text-shadow"><?= $value['title'] ?></span>
-        <span class ="date place-right text-secondary padding-right10"><span class="mif-calendar mif-lg"></span> <?= $value['date_creation'] ?></span><br>
+        <span class="title text-shadow"><?= $value->getTitle(); ?></span>
+        <span class ="date place-right text-secondary padding-right10"><span class="mif-calendar mif-lg"></span> <?= $value->getDateCreation(); ?></span><br>
       </div>
       <div class="content" style="word-wrap: break-word;">
         <div class="post_info text-small">
-          <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $value['nbr_comments'] ?></span><br>
-          <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $value['categories'] ?></span><br>
+          <span class ="commentaires"><span class="mif-bubble fg-cobalt"></span> <?= $value->getNbrComments(); ?></span><br>
+          <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $value->getCategories(); ?></span><br>
         </div>
-        <p><?= $value['summary'] ?></p><br>
-        <span class ="author text-small"><span class="mif-user"></span><?= $value['author'] ?></span>
+        <p><?= $value->getSummary() ?></p><br>
+        <span class ="author text-small"><span class="mif-user"></span><?= $value->getAuthor(); ?></span>
 	<div class="place-right">
 		<span class="mif-chevron-right"></span>
-		<?= html::link('Lire plus', array('controller'=>'Posts', 'view'=>'view', 'params'=>$value['id'])) ?>
+		<?= html::link('Lire plus', array('controller'=>'Posts', 'view'=>'view', 'params'=>$value->getId())); ?>
 	</div>
       </div>
     </div>

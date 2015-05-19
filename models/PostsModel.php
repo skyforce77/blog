@@ -28,16 +28,40 @@ class PostsModel extends Model{
 		$query->bindParam(':left', $left_limit, PDO::PARAM_INT);
 		$query->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$query->execute();
-		return $query->fetchAll();
+		$tmp = $query->fetchAll();
+		$ret=array();
+		foreach ($tmp as $value) {
+			$object = new PostsModel();
+			$object->setId($value['id']);
+			$object->setTitle($value['title']);
+			$object->setContent($value['content']);
+			$object->setSummary($value['summary']);
+			$object->setAuthor($value['author']);
+			$object->setDateCreation($value['date_creation']);
+			$object->setCategories($value['categories']);
+			$object->setNbrComments($value['nbr_comments']);
+			array_push($ret, $object);
+		}
+		return $ret;
 	}
 
 	public function selectById($id){
-		$sql = 'select *
-		from posts_view where id = :id';
+		$sql = 'select * from posts_view where id = :id';
 		$query = $this->link->prepare($sql);
 		$query->execute(array(':id' => $id));
-		$res =$query->fetchAll();
-		return $res;
+		$tmp = $query->fetchAll();
+		$object = new PostsModel();
+		foreach ($tmp as $value) {			
+			$object->setId($value['id']);
+			$object->setTitle($value['title']);
+			$object->setContent($value['content']);
+			$object->setSummary($value['summary']);
+			$object->setAuthor($value['author']);
+			$object->setDateCreation($value['date_creation']);
+			$object->setCategories($value['categories']);
+			$object->setNbrComments($value['nbr_comments']);
+		}
+		return $object;
 	}
 
 	public function countPosts($where){
@@ -93,6 +117,70 @@ class PostsModel extends Model{
 		$query = $this->link->prepare('DELETE FROM posts WHERE id = :id');
 		$res = $query->execute(array(':id' => $id));
 		return $res;
+	}
+
+	public function getId(){
+		return $this->id;
+	}
+
+	public function setId($id){
+		$this->id = $id;
+	}
+
+	public function getTitle(){
+		return $this->title;
+	}
+
+	public function setTitle($title){
+		$this->title = $title;
+	}
+
+	public function getContent(){
+		return $this->content;
+	}
+
+	public function setContent($content){
+		$this->content = $content;
+	}
+
+	public function getSummary(){
+		return $this->summary;
+	}
+
+	public function setSummary($summary){
+		$this->summary = $summary;
+	}
+
+	public function getAuthor(){
+		return $this->author;
+	}
+
+	public function setAuthor($author){
+		$this->author = $author;
+	}
+
+	public function getDateCreation(){
+		return $this->date_creation;
+	}
+
+	public function setDateCreation($date_creation){
+		$this->date_creation = $date_creation;
+	}
+
+	public function getCategories(){
+		return $this->categories;
+	}
+
+	public function setCategories($categories){
+		$this->categories = $categories;
+	}
+
+	public function getNbrComments(){
+		return $this->nbrComments;
+	}
+
+	public function setNbrComments($nbrComments){
+		$this->nbrComments = $nbrComments;
 	}
 }
 
