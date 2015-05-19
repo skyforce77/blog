@@ -36,6 +36,18 @@ class EditorsModel extends Model{
 		}
 	}
 
+	public function getUserByName($name){
+		$query = $this->link->prepare('SELECT * FROM editors WHERE name = :name ;');
+		$query->execute(array(':name'=>$name));
+		$ret = $query->fetchAll();
+		
+		if(empty($ret)){
+			return null;
+		}else{	
+			return $ret[0];
+		}
+	}
+
 	public function pseudoExist($p){
 		$query = $this->link->prepare('SELECT * FROM editors WHERE name = :name ;');
 		$query->execute(array(':name'=>$p));

@@ -31,7 +31,7 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 					<?= html::link('<span class="mif-pencil"></span> Editer', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
 					<?= html::link('<span class="mif-bin"></span> Supprimer', array('controller'=>'Posts', 'view'=>'delete', 'params'=>$post[0]['id']), array('class'=>'button')) ?>
 				<?php else: ?>
-					<span class ="author text-small"><span class="mif-user"></span> <?= $post[0]['author'] ?></span>
+					<?= html::link('<span class ="author text-small"><span class="mif-user"></span> '.$user['name'], array('controller'=>'Editors', 'view'=>'profil', 'params'=>$user['id'])) ?>
 				<?php endif ?>
 		      </div>
 		    </div>

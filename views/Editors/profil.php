@@ -8,7 +8,13 @@
 			<hr class="bg-teal">
 			<br>
 			<h2><?= ucfirst($user['name']) ?></h2><br>
-			<h3><?= $user['public'] == 1 ? $user['mail'] : 'Mail privé' ?></h3><br>
+			<h3><?php
+				if((isset($_SESSION['editor_id']) && $_SESSION['editor_id'] == $user['id']) || $user['public'] == 1) {
+					echo $user['mail'];
+				} else {
+					echo 'Mail privé';
+				}
+			?></h3><br>
 		<?php else: ?>
 			<h1>Cet éditeur n'existe pas</h1>
 		<?php endif; ?>

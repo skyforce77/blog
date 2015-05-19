@@ -3,6 +3,7 @@
 		public function view($idPost){
 			require_once(ROOT.'models/PostsModel.php');
 			require_once(ROOT.'models/CommentsModel.php');
+			require_once(ROOT.'models/EditorsModel.php');
 
 			$postResult = null;
 
@@ -63,6 +64,14 @@
 			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
 			$postsModel->close();
 			$commentsModel->close();
+
+			$editorsModel = new EditorsModel();
+			$user = $editorsModel->getUserByName($post[0]['author']);
+			$editorsModel->close();
+
+			if(!empty($user))
+				$this->giveVar(compact('user'));
+
 			$this->giveVar(compact('postResult'));	
 			$this->giveVar(compact('comments'));
 

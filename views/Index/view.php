@@ -75,7 +75,7 @@
           <span class ="categories"><span class="mif-tag fg-cobalt"></span> <?= $value['categories'] ?></span><br>
         </div>
         <p><?= $value['summary'] ?></p><br>
-        <span class ="author text-small"><span class="mif-user"></span> <?= $value['author'] ?></span>
+        <span class ="author text-small"><span class="mif-user"></span><?= $value['author'] ?></span>
 	<div class="place-right">
 		<span class="mif-chevron-right"></span>
 		<?= html::link('Lire plus', array('controller'=>'Posts', 'view'=>'view', 'params'=>$value['id'])) ?>
