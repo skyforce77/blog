@@ -39,7 +39,8 @@
 			<hr class="bg-teal">
 			<form action="" method="POST">
 				<input type="hidden" name="logout" value="">
-				<?php echo html::link('<span class="mif-pencil"></span> Nouvel article', array('controller'=>'Posts', 'view'=>'add'), array('class'=>'button')); ?>
+				<?php echo html::link('<span class="mif-pencil"></span> Nouvel article', array('controller'=>'Posts', 'view'=>'add'), array('class'=>'button')); ?><br>
+				<?php echo html::link('<span class="mif-user"></span> Profil', array('controller'=>'Editors', 'view'=>'profil', 'params'=>$_SESSION['editor_id']), array('class'=>'button')); ?><br>
 				<button class="button" type="submit"><span class="mif-switch"></span> Se déconnecter</button>
 			</form>
 			<br>

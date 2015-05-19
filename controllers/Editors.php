@@ -103,9 +103,16 @@
 			//On verifie que l'utilisateur est connecté
 		}
 
-		public function profil(){
+		public function profil($idEditor = 0){
+			require_once(ROOT.'models/EditorsModel.php');
+			$editorsModel = new EditorsModel();
+			$retour = $editorsModel->getUserById($idEditor);
+			$editorsModel->close();
 			
-			//On verifie si c'est sont profil
+			if(!empty($retour))
+				$this->giveVar("user",$retour);
+				
+			$this->display('profil');
 		}
 	}
 ?>

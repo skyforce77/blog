@@ -23,5 +23,17 @@ class EditorsModel extends Model{
 			return null;
 		}
 	}
+	
+	public function getUserById($id){
+		$query = $this->link->prepare('SELECT * FROM editors WHERE id = :id ;');
+		$query->execute(array(':id'=>$id));
+		$ret = $query->fetchAll();
+		
+		if(empty($ret)){
+			return null;
+		}else{	
+			return $ret[0];
+		}
+	}
 }
 ?>
