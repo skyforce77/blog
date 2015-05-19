@@ -1,5 +1,6 @@
 <?php
 	class Index extends Controller{
+		
 		public function view(){
 			require_once(ROOT.'models/PostsModel.php');
 			require_once(ROOT.'models/CategoriesModel.php');
@@ -13,8 +14,8 @@
 			$param = array('order' => 'date_creation DESC');
 			$left_limit = 0;
 			$offset = 10;
-			$where = "";
-			$order = "";
+			$where = "1=1";
+			$order = "date_creation DESC";
 
 			if(isset($_GET['page'])){
 				$currentPage = $_GET['page'];
@@ -24,26 +25,21 @@
 			if(isset($_GET['sort'])){
 				$sort = $_GET['sort'];
 				if($sort == 'Plus récent'){
-					$param = array('order' => 'date_creation DESC');
+					$order = 'date_creation DESC';
 				}
 				else if($sort == 'Moins récent'){
-					$param = array('order' => 'date_creation ASC');
+					$order = 'date_creation ASC';
 				}
 				else if($sort == 'Auteur A-Z'){
-					$param = array('order' => 'author ASC');
+					$order = 'author ASC';
 				}
 				else if($sort == 'Auteur Z-A'){
-					$param = array('order' => 'author DESC');
+					$order = 'author DESC';
 				}
-			}
+			}			
 			
-			if($param['order'] != null){
-				$order = "ORDER BY ".$param['order']." ";
-			}else{
-				$order = "ORDER BY date_creation DESC ";
-			}
 			if(isset($_GET['categorie']) && $_GET['categorie'] != 'Toutes les catégories'){
-				$where = " where categories.id = ".$_GET['categorie']." ";
+				$where = "categories.id = ".$_GET['categorie']." ";
 			}
 			
 			$posts = $postsModel->getPosts($where, $order, $left_limit, $offset);			

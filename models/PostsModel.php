@@ -21,9 +21,14 @@ class PostsModel extends Model{
 		from categories 
 		inner join posts_categories on categories.id = posts_categories.categories_id 
 		inner join posts_view on posts_view.id = posts_categories.posts_id
-		'.$where.' group by posts_view.id '.$order.' limit '.$left_limit.','.$offset.' ;';
-		$result = $this->query($sql);
-		return $result->fetchAll();
+		WHERE :where group by posts_view.id order by :order limit :left, :offset ;';
+		$query = $this->link->prepare($sql);
+		$query->bindParam(':where', $where, PDO::PARAM_STR);
+		$query->bindParam(':order', $order, PDO::PARAM_STR);
+		$query->bindParam(':left', $left_limit, PDO::PARAM_INT);
+		$query->bindParam(':offset', $offset, PDO::PARAM_INT);
+		$query->execute();
+		return $query->fetchAll();
 	}
 
 	public function selectById($id){
@@ -39,10 +44,12 @@ class PostsModel extends Model{
 		$sql = 'select *
 		from categories 
 		inner join posts_categories on categories.id = posts_categories.categories_id 
-		inner join posts_view on posts_view.id = posts_categories.posts_id
-		'.$where.' group by posts_view.id ;';
-		$result = $this->query($sql);
-		return $result->rowCount();
+		inner join posts_view on posts_view.id = posts_categories.posts_id WHERE
+		:where group by posts_view.id ;';
+		$query = $this->link->prepare($sql);
+		$query->bindParam(':where', $where, PDO::PARAM_STR);
+		$query->execute();
+		return $query->rowCount();
 	}
 
 	public function addPost($array = array()){		
