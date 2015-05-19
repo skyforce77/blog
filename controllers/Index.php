@@ -52,7 +52,6 @@
 			$nbrPages = $nbrPosts/$offset;
 			if($nbrPosts%$offset>0)
 				$nbrPages+=1;
-			
 			$this->giveVar(compact('statsCategories'));
 			$this->giveVar(compact('nbrPages'));
 			$this->giveVar(compact('posts'));

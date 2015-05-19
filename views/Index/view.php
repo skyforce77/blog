@@ -116,10 +116,10 @@
       }
          
     
-      if(isset($page) && $page < $nbrPages){        
+      if(isset($page) && $page+1 < $nbrPages){        
         echo "<a class='item' href='?page=".($page+1).$options."'>></a>";
       }else{
-        echo "<span class='item disabled'>&lt;</span>";
+        echo "<span class='item disabled'>&gt;</span>";
       }
 ?>
 
