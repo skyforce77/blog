@@ -35,5 +35,28 @@ class EditorsModel extends Model{
 			return $ret[0];
 		}
 	}
+
+	public function pseudoExist($p){
+		$query = $this->link->prepare('SELECT * FROM editors WHERE name = :name ;');
+		$query->execute(array(':name'=>$p));
+		$ret = $query->rowCount();
+		if($ret==0){
+			return false;
+		}else{			
+			return true;
+		}
+	}
+
+	public function addEditor($name, $pass, $mail, $public){
+		$query = $this->link->prepare('INSERT INTO editors(name, password, mail, date_registration, public) VALUES(:name, :password, :mail, :dateReg, :public);');
+		$res = $query->execute(array(
+			':name'=>$name,
+			':password'=>$pass,
+			':mail'=>$mail,
+			':dateReg'=>date("Y-m-d H:i:s"),
+			':public'=>$public
+			));
+		return $res;
+	}
 }
 ?>
