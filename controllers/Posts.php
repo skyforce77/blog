@@ -113,10 +113,10 @@
 			$result = $postsModel->selectById($idPost);
 			$author = null;
 			$postResult = array();
-			if(empty($result)){
+			if(empty($result->getId())){
 				$postResult = array(1 , "Ce post n'existe pas.");
 			}else{
-				$author = $result[0]['author'];
+				$author = $result->getAuthor();
 			}
 
 			$canEdit = null;
