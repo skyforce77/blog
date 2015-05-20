@@ -1,3 +1,15 @@
+<?php if(!empty($postResult)): ?>
+			<script>
+				$.Notify({
+					caption: 'Edition',
+					content: '<?= $postResult[1] ?>',
+					type: '<?= $postResult[0] == 1 ? "alert" : "success" ?>',
+					keepOpen: true,
+					icon: "<span class='mif-user'></span>"
+				});
+			</script>
+<?php endif ?>
+
 <div class="container page-content">
 	<br>
 	<?php if(isset($post[0]) && $canEdit == 1): ?>
@@ -10,6 +22,15 @@
 								<div class="input-control text">
 									<input type="text" name="title" placeholder="Titre" value="<?= $post[0]['title'] ?>">
 								</div>
+								<br>
+								<?php foreach ($categories as $categorie) { ?>
+									<label class="switch">
+										<p><?= $categorie['name'] ?>
+											<input type="checkbox" name="<?= $categorie['name'] ?>" <?= in_array($categorie['name'], $inCats) ? 'checked' : '' ?>>
+											<span class="check"></span>
+										</p>
+									</label>
+								<?php } ?>
 								<br>
 								<div class="input-control textarea commentaire-area">
 									<textarea name="summary" placeholder="Résumé"><?= $post[0]['summary'] ?></textarea>

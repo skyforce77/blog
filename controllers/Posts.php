@@ -80,6 +80,11 @@
 		public function edit($idPost){
 			require_once(ROOT.'models/PostsModel.php');
 			require_once(ROOT.'models/CommentsModel.php');
+			require_once(ROOT.'models/CategoriesModel.php');
+
+			$catModel = new CategoriesModel();
+			$categories = $catModel->select();
+			$catModel->close();
 
 			$postResult = null;
 
@@ -90,12 +95,15 @@
 			$canEdit = 0;
 			if(isset($post[0])) {
 				$this->giveVar(compact('post'));
-				if(isset($_SESSION['editor_id']) && $post[0]['author'] == $_SESSION['editor_id']) {
+				$inCats = explode(', ',$post[0]['categories']);
+				$this->giveVar(compact('inCats'));
+				if(isset($_SESSION['editor_name']) && $post[0]['author'] == $_SESSION['editor_name']) {
 					$canEdit = 1;
 				}
 			}
 
 			$this->giveVar(compact('canEdit'));
+			$this->giveVar(compact('categories'));
 			$this->display('edit');
 		}
 
