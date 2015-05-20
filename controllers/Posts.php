@@ -83,22 +83,66 @@
 			require_once(ROOT.'models/CategoriesModel.php');
 
 			$catModel = new CategoriesModel();
-			$categories = $catModel->select();
+			$categories = $catModel->getAll();
 			$catModel->close();
 
 			$postResult = null;
 
 			$postsModel = new PostsModel();
-			$post = $postsModel->select(array(), array('conditions' => 'id = '.intval($idPost.'')));
+			$post = $postsModel->selectById($idPost);
 			$postsModel->close();		
 
 			$canEdit = 0;
-			if(isset($post[0])) {
+			if(!empty($post->getId())) {
 				$this->giveVar(compact('post'));
-				$inCats = explode(', ',$post[0]['categories']);
+				$inCats = explode(', ',$post->getCategories());
 				$this->giveVar(compact('inCats'));
-				if(isset($_SESSION['editor_name']) && $post[0]['author'] == $_SESSION['editor_name']) {
+				if(isset($_SESSION['editor_name']) && $post->getAuthor() == $_SESSION['editor_name']) {
 					$canEdit = 1;
+				}
+			}
+
+			if(isset($_POST['title']) && isset($_POST['summary']) && isset($_POST['content'])){
+				$title = htmlspecialchars($_POST['title']);
+				$summary = htmlspecialchars($_POST['summary']);
+				$content = htmlspecialchars($_POST['content']);
+				$catArry = array();
+				foreach ($categories as $value) {
+					if(isset($_POST[$value->getName()])){
+						array_push($catArray, $value->getId());
+					}
+				}
+				
+				if(empty($title) || empty($summary) || empty($content)){
+					$postResult = array(1, "Veillez remplir tout les champs.");
+				}
+				else if(empty($catArray)){ // Si aucune categorie n'a été sélectionnée
+					$postResult = array(1, "Veillez selectionner au moins une catégorie.");
+				}
+				else if(strlen($title) < 5 || strlen($title) > 100){
+					$postResult = array(1, "Le titre doit contenir entre 5 et 10 caractères.");
+				}
+				else if(strlen($summary) < 30){
+					$postResult = array(1, "Le résumé doit contenir au moins 30 caractères.");
+				}
+				else if(strlen($content) < 100){
+					$postResult = array(1, "Le contenu doit contenir au moins 100 caractères.");
+				}
+				else{
+					$options = array(
+						'id'=>$idPost,
+						'title' => $title,
+						'content' => $content,
+						'summary' => $summary,
+						'categories' => $catArray
+						);
+					$postModel = new PostsModel();
+					if($postModel->updateById($options) == 1){
+						$postResult = array(1, "Erreur lors de l'envoi du post. Veuillez réessayer plus tard.");
+					}else{
+						$postResult = array(0, "Le post a bien été ajouté.");
+					}						
+					$postModel->close();
 				}
 			}
 

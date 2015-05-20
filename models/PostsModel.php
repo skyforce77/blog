@@ -64,6 +64,46 @@ class PostsModel extends Model{
 		return $object;
 	}
 
+	public function updateById($array){
+		if(empty($array)){
+			return 1;
+		}
+		$key = array('title', 'editors_id', 'summary', 'content', 'categories', 'id');
+		foreach($key as $value){
+			if(!array_key_exists($value, $array)){
+				return 1;
+			}
+		}
+		
+		$req = $this->link->prepare('UPDATE posts SET title=:title, summary=:summary, content=:content, editors_id=:editors_id WHERE id=:idPost');
+		$res = $req->execute(array(
+			':idPost' => $array['id'],
+			':title' => $array['title'],
+			':summary' => $array['summary'],
+			':content' => $array['content'],
+			':editors_id' => $array['editors_id']
+			));
+
+		if($res == FALSE){
+			return 1;
+		}
+
+		/*
+		$lastId = $this->link->lastInsertId();
+		$req = $this->link->prepare('INSERT INTO posts_categories (posts_id, categories_id) VALUES (:posts_id, :categories_id)');
+		foreach ($array['categories'] as $value) {			
+			$res = $req->execute(array(
+				':posts_id' => $lastId,
+				':categories_id' => $value
+				));
+			if($res == FALSE){
+				return 1;
+			}
+		}
+		*/
+		return 0;
+	}
+
 	public function countPosts($where){
 		$sql = 'select *
 		from categories 
