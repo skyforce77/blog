@@ -10,6 +10,7 @@
 
 			$categoriesModel = new CategoriesModel();
 			$statsCategories = $categoriesModel->countByName();
+			$categoriesModel->close();
 			
 			$param = array('order' => 'date_creation DESC');
 			$left_limit = 0;
