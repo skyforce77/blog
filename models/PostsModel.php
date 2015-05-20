@@ -88,19 +88,10 @@ class PostsModel extends Model{
 			return 1;
 		}
 
-		/*
-		$lastId = $this->link->lastInsertId();
-		$req = $this->link->prepare('INSERT INTO posts_categories (posts_id, categories_id) VALUES (:posts_id, :categories_id)');
-		foreach ($array['categories'] as $value) {			
-			$res = $req->execute(array(
-				':posts_id' => $lastId,
-				':categories_id' => $value
-				));
-			if($res == FALSE){
-				return 1;
-			}
-		}
-		*/
+		//On verifie si des catégories on été ajoutées
+		 //On sélection toutes les categories du post
+		 //On verifie 
+		//On verifie si des catégories on été supprimée
 		return 0;
 	}
 
