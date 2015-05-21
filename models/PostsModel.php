@@ -80,7 +80,8 @@ class PostsModel extends Model{
 		$key = array('title', 'editors_id', 'summary', 'content', 'categories', 'id');
 		foreach($key as $value){
 			if(!array_key_exists($value, $array)){
-				return 1;
+				print_r($value);
+				return 2;
 			}
 		}
 		
@@ -94,41 +95,54 @@ class PostsModel extends Model{
 			));
 
 		if($res == FALSE){
-			return 1;
+			return 3;
 		}
 
 		//On verifie si des catégories on été ajoutées
+
 		foreach ($array['categories'] as $value) {
-			$sql = 'SELECT * FROM posts_categories 
-				INNER JOIN categories ON posts_categories.categories_id=categories.id
-				WHERE posts_id=:id AND name=:name;';
+
+			$sql = 'SELECT * FROM posts_categories
+				WHERE posts_id=:postId AND categories_id=:catId;';
 			$query = $this->link->prepare($sql);
-			$query->execute(array(
-				':id' => $array['id'], 
-				':name' => $value
-				));
-			if($query->rowCount == 0){
+			$query->bindParam(':postId', $array['id'], PDO::PARAM_INT);
+			$query->bindParam(':catId', $value, PDO::PARAM_INT);
+			$res = $query->execute();
+			if($res == FALSE){
+				return 4;
+			}
+
+			if($query->rowCount() == 0){
 				$sql = 'INSERT INTO posts_categories(posts_id, categories_id) 
-					VALUES(:id, (SELECT id FROM categories WHERE name=:name));';
+					VALUES(:postId, :catId);';
 				$query = $this->link->prepare($sql);
-				$query->execute(array(
-					':id' => $array['id'], 
-					':name' => $value
-					));
+				$query->bindParam(':postId', $array['id'], PDO::PARAM_INT);
+				$query->bindParam(':catId', $value, PDO::PARAM_INT);
+				$res = $query->execute();
+				if($res == FALSE){
+					return 5;
+				}
 			}
 		}
-		$sql = 'SELECT * FROM posts_categories 
-			INNER JOIN categories ON posts_categories.categories_id=categories.id;';
+
+		//On verifie si des catégories ont été supprimés
+		$sql = 'SELECT * FROM posts_categories WHERE posts_id=:postId;';
 		$query = $this->link->prepare($sql);
-		$query->execute();
+		$query->bindParam(':postId', $array['id'], PDO::PARAM_INT);
+		$res = $query->execute();
+		if($res == FALSE){
+			return 7;
+		}
 		foreach ($query->fetchAll() as $value) {
-			if(!in_array($value['name'], $array['categories'])){
-				$sql = 'DELETE FROM posts_categories WHERE categories_id=:catId AND posts_id=:postId));';
+			if(!in_array(intval($value['categories_id']), $array['categories'])){
+				$sql = 'DELETE FROM posts_categories WHERE categories_id=:catId AND posts_id=:postId;';
 				$query = $this->link->prepare($sql);
-				$query->execute(array(
-					':catId' => $value['categories_id'], 
-					':postId' => $array['id']
-					));
+				$query->bindParam(':catId', $value['categories_id'], PDO::PARAM_INT);
+				$query->bindParam(':postId', $array['id'], PDO::PARAM_INT);
+				$res = $query->execute();
+				if($res == FALSE){
+					return 7;
+				}
 			}
 		}
 		

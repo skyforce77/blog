@@ -87,29 +87,16 @@
 			$catModel->close();
 
 			$postResult = null;
+			$canEdit = 0;			
 
-			$postsModel = new PostsModel();
-			$post = $postsModel->selectById($idPost);
-			$postsModel->close();		
-
-			$canEdit = 0;
-			if(!empty($post->getId())) {
-				$this->giveVar(compact('post'));
-				$inCats = explode(', ',$post->getCategories());
-				$this->giveVar(compact('inCats'));
-				if(isset($_SESSION['editor_name']) && $post->getAuthor() == $_SESSION['editor_name']) {
-					$canEdit = 1;
-				}
-			}
-
-			if(isset($_POST['title']) && isset($_POST['summary']) && isset($_POST['content'])){
+			if(isset($_POST['title']) && isset($_POST['summary']) && isset($_POST['content'])){				
 				$title = htmlspecialchars($_POST['title']);
 				$summary = htmlspecialchars($_POST['summary']);
 				$content = htmlspecialchars($_POST['content']);
-				$catArry = array();
+				$catArray = array();
 				foreach ($categories as $value) {
 					if(isset($_POST[$value->getName()])){
-						array_push($catArray, $value->getId());
+						array_push($catArray, intval($value->getId()));
 					}
 				}
 				
@@ -131,21 +118,37 @@
 				else{
 					$options = array(
 						'id'=>$idPost,
+						'editors_id'=>$_SESSION['editor_id'],
 						'title' => $title,
 						'content' => $content,
 						'summary' => $summary,
 						'categories' => $catArray
 						);
 					$postModel = new PostsModel();
-					if($postModel->updateById($options) == 1){
-						$postResult = array(1, "Erreur lors de l'envoi du post. Veuillez réessayer plus tard.");
+					$res = $postModel->updateById($options);
+					if($res > 0){
+						$postResult = array(1, "Echec de traitement des données. Réessayez plus tard. Code : ".$res);
 					}else{
-						$postResult = array(0, "Le post a bien été ajouté.");
+						$postResult = array(0, "Le post a bien été modifié.");
 					}						
 					$postModel->close();
 				}
 			}
 
+			$postsModel = new PostsModel();
+			$post = $postsModel->selectById($idPost);
+			$postsModel->close();
+
+			if(!empty($post->getId())) {
+				$this->giveVar(compact('post'));
+				$inCats = explode(', ',$post->getCategories());
+				$this->giveVar(compact('inCats'));
+				if(isset($_SESSION['editor_name']) && $post->getAuthor() == $_SESSION['editor_name']) {
+					$canEdit = 1;
+				}
+			}
+
+			$this->giveVar(compact('postResult'));
 			$this->giveVar(compact('canEdit'));
 			$this->giveVar(compact('categories'));
 			$this->display('edit');
