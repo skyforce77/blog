@@ -15,7 +15,7 @@
 			$param = array('order' => 'date_creation DESC');
 			$left_limit = 0;
 			$offset = 10;
-			$where = "1=1";
+			$where = null;
 			$order = "date_creation DESC";
 
 			if(isset($_GET['page'])){
@@ -37,18 +37,20 @@
 				else if($sort == 'Auteur Z-A'){
 					$order = 'author DESC';
 				}
-			}			
+			}
+
 			
 			if(isset($_GET['categorie']) && $_GET['categorie'] != 'Toutes les catégories'){
-				$where = "categories.id = ".$_GET['categorie']." ";
+				$where = intval($_GET['categorie']);
 			}
 			
 			$posts = $postsModel->getPosts($where, $order, $left_limit, $offset);			
 			$nbrPosts = $postsModel->countPosts($where);
 			
-			$nbrPages = $nbrPosts/$offset;
-			if($nbrPosts%$offset>0)
+			$nbrPages = intval($nbrPosts/$offset);
+			if(intval($nbrPosts/$offset)>0 && $nbrPosts%$offset>0)
 				$nbrPages+=1;
+			
 			$this->giveVar(compact('statsCategories'));
 			$this->giveVar(compact('nbrPages'));
 			$this->giveVar(compact('posts'));

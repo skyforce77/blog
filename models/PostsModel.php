@@ -17,14 +17,23 @@ class PostsModel extends Model{
 	}
 
 	public function getPosts($where, $order, $left_limit, $offset){
-		$sql = 'select *
-		from categories 
-		inner join posts_categories on categories.id = posts_categories.categories_id 
-		inner join posts_view on posts_view.id = posts_categories.posts_id
-		WHERE :where group by posts_view.id order by :order limit :left, :offset ;';
+		if(empty($where)){
+			$sql = 'SELECT DISTINCT posts_id AS id, title, content, summary, author, date_creation, categories, nbr_comments
+				FROM categories 
+				INNER JOIN posts_categories ON categories.id = posts_categories.categories_id 
+				INNER JOIN posts_view ON posts_view.id = posts_categories.posts_id
+				ORDER BY '.$order.' LIMIT :left, :offset ;';
+		}else{
+			$sql = 'SELECT DISTINCT posts_id AS id, title, content, summary, author, date_creation, categories, nbr_comments
+				FROM categories 
+				INNER JOIN posts_categories ON categories.id = posts_categories.categories_id 
+				INNER JOIN posts_view ON posts_view.id = posts_categories.posts_id
+				WHERE categories_id = :where ORDER BY '.$order.' LIMIT :left, :offset ;';
+		}
+		
 		$query = $this->link->prepare($sql);
-		$query->bindParam(':where', $where, PDO::PARAM_STR);
-		$query->bindParam(':order', $order, PDO::PARAM_STR);
+		if(!empty($where))
+			$query->bindParam(':where', $where, PDO::PARAM_INT);
 		$query->bindParam(':left', $left_limit, PDO::PARAM_INT);
 		$query->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$query->execute();
@@ -89,20 +98,60 @@ class PostsModel extends Model{
 		}
 
 		//On verifie si des catégories on été ajoutées
-		 //On sélection toutes les categories du post
-		 //On verifie 
-		//On verifie si des catégories on été supprimée
+		foreach ($array['categories'] as $value) {
+			$sql = 'SELECT * FROM posts_categories 
+				INNER JOIN categories ON posts_categories.categories_id=categories.id
+				WHERE posts_id=:id AND name=:name;';
+			$query = $this->link->prepare($sql);
+			$query->execute(array(
+				':id' => $array['id'], 
+				':name' => $value
+				));
+			if($query->rowCount == 0){
+				$sql = 'INSERT INTO posts_categories(posts_id, categories_id) 
+					VALUES(:id, (SELECT id FROM categories WHERE name=:name));';
+				$query = $this->link->prepare($sql);
+				$query->execute(array(
+					':id' => $array['id'], 
+					':name' => $value
+					));
+			}
+		}
+		$sql = 'SELECT * FROM posts_categories 
+			INNER JOIN categories ON posts_categories.categories_id=categories.id;';
+		$query = $this->link->prepare($sql);
+		$query->execute();
+		foreach ($query->fetchAll() as $value) {
+			if(!in_array($value['name'], $array['categories'])){
+				$sql = 'DELETE FROM posts_categories WHERE categories_id=:catId AND posts_id=:postId));';
+				$query = $this->link->prepare($sql);
+				$query->execute(array(
+					':catId' => $value['categories_id'], 
+					':postId' => $array['id']
+					));
+			}
+		}
+		
 		return 0;
 	}
 
 	public function countPosts($where){
-		$sql = 'select *
-		from categories 
-		inner join posts_categories on categories.id = posts_categories.categories_id 
-		inner join posts_view on posts_view.id = posts_categories.posts_id WHERE
-		:where group by posts_view.id ;';
+		if(empty($where)){
+			$sql = 'SELECT DISTINCT posts_id AS id, title, content, summary, author, date_creation, categories, nbr_comments
+				FROM categories 
+				INNER JOIN posts_categories ON categories.id = posts_categories.categories_id 
+				INNER JOIN posts_view ON posts_view.id = posts_categories.posts_id;';
+		}else{
+			$sql = 'SELECT DISTINCT posts_id AS id, title, content, summary, author, date_creation, categories, nbr_comments
+				FROM categories 
+				INNER JOIN posts_categories ON categories.id = posts_categories.categories_id 
+				INNER JOIN posts_view ON posts_view.id = posts_categories.posts_id
+				WHERE categories_id = :where;';
+		}
+		
 		$query = $this->link->prepare($sql);
-		$query->bindParam(':where', $where, PDO::PARAM_STR);
+		if(!empty($where))
+			$query->bindParam(':where', $where, PDO::PARAM_INT);
 		$query->execute();
 		return $query->rowCount();
 	}
