@@ -1,7 +1,7 @@
 <?php if(!empty($postResult)): ?>
 			<script>
 				$.Notify({
-					caption: 'Commentaire',
+					caption: 'Post',
 					content: '<?= $postResult[1] ?>',
 					type: '<?= $postResult[0] == 1 ? "alert" : "success" ?>',
 					keepOpen: true,
