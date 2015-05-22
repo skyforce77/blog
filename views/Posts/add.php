@@ -20,24 +20,24 @@
 				    	<div class="content">
 							<form action="#" method="POST">
 								<div class="input-control text">
-									<input type="text" name="title" placeholder="Titre">
+									<input type="text" name="title" placeholder="Titre" value="<?= $title ?>">
 								</div>
 								<br>
 								<?php foreach ($categories as $categorie) { ?>
 									<label class="switch">
-										<p><?= $categorie['name'] ?>
-											<input type="checkbox" name="<?= $categorie['name'] ?>">
+										<p><?= $categorie->getName() ?>
+											<input type="checkbox" name="<?= $categorie->getName() ?>">
 											<span class="check"></span>
 										</p>
 									</label>
 								<?php } ?>
 								<br>
 								<div class="input-control textarea commentaire-area">
-									<textarea name="summary" placeholder="Résumé"></textarea>
+									<textarea name="summary" placeholder="Résumé"><?= $summary ?></textarea>
 								</div>
 								<br>
 								<div class="input-control textarea commentaire-area">
-									<textarea name="content" placeholder="Contenu"></textarea>
+									<textarea name="content" placeholder="Contenu" ><?= $content ?></textarea>
 								</div>
 								<br>
 								<input class="button" type="submit" value="Créer">

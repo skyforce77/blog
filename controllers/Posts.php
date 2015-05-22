@@ -188,20 +188,21 @@
 			require_once(ROOT.'models/CategoriesModel.php');
 			require_once(ROOT.'models/PostsModel.php');
 			$catModel = new CategoriesModel();
-			$categories = $catModel->select();
+			$categories = $catModel->getAll();
 			$catModel->close();
 			$catArray = array();
 
 			$canEdit = 0;
 			if(isset($_SESSION['editor_id'])) {
 				$canEdit = 1;
+				$content = $summary = $title = "";
 				if(isset($_POST['title']) && isset($_POST['summary']) && isset($_POST['content'])){
 					$title = htmlspecialchars($_POST['title']);
 					$summary = htmlspecialchars($_POST['summary']);
 					$content = htmlspecialchars($_POST['content']);
 					foreach ($categories as $value) {
-						if(isset($_POST[$value['name']])){
-							array_push($catArray, $value['id']);
+						if(isset($_POST[$value->getName()])){
+							array_push($catArray, $value->getId());
 						}
 					}
 					
@@ -238,10 +239,11 @@
 					}
 				}
 				
-
-				//if(isset($_POST['titre']))
 			}
 			
+			$this->giveVar(compact('summary'));
+			$this->giveVar(compact('content'));
+			$this->giveVar(compact('title'));
 			$this->giveVar(compact('postResult'));
 			$this->giveVar(compact('categories'));
 			$this->giveVar(compact('canEdit'));
