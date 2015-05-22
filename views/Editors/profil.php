@@ -25,8 +25,7 @@
 			foreach($posts as $value) {
 				$x++;		
 		?>
-		<br>
-		<div class="panel border-black collapsible <?= $x == 1 ? '' : 'collapsed' ?>" style="margin-top:30px;" data-role="panel">
+		<div class="panel border-black collapsible <?= $x <= 5 ? '' : 'collapsed' ?>" data-role="panel">
 	      		<div class="heading">
 				<span class="title text-shadow"><?= $value->getTitle(); ?></span>
 	      			<span class ="date place-right text-secondary padding-right4em"><span class="mif-calendar mif-lg"></span> <?= $value->getDateCreation() ?></span><br>
