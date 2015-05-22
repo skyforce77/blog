@@ -16,6 +16,10 @@
 	padding-right: 10px;
 }
 
+.padding-right4em {
+	padding-right: 4em;
+}
+
 .commentaire-area {
 	width: 100%;
 }

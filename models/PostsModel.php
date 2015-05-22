@@ -73,6 +73,35 @@ class PostsModel extends Model{
 		return $object;
 	}
 
+	public function selectByAuthor($author){
+		$sql = 'select * from posts_view where author = :author';
+		$query = $this->link->prepare($sql);
+		$query->execute(array(':author' => $author));
+		$tmp = $query->fetchAll();
+		$array = array();
+		foreach ($tmp as $value) {
+			$object = new PostsModel();		
+			$object->setId($value['id']);
+			$object->setTitle($value['title']);
+			$object->setContent($value['content']);
+			$object->setSummary($value['summary']);
+			$object->setAuthor($value['author']);
+			$object->setDateCreation($value['date_creation']);
+			$object->setCategories($value['categories']);
+			$object->setNbrComments($value['nbr_comments']);
+			array_push($array,$object);
+		}
+		return $array;
+	}
+
+	public function countByAuthor($author){
+		$sql = 'select count(distinct id) from posts_view where author = :author';
+		$query = $this->link->prepare($sql);
+		$query->execute(array(':author' => $author));
+		$tmp = $query->fetchAll();
+		return $tmp[0][0];
+	}
+
 	public function updateById($array){
 		if(empty($array)){
 			return 1;

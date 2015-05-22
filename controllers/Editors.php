@@ -114,12 +114,21 @@
 
 		public function profil($idEditor = 0){
 			require_once(ROOT.'models/EditorsModel.php');
+			require_once(ROOT.'models/PostsModel.php');
 			$editorsModel = new EditorsModel();
 			$retour = $editorsModel->getUserById($idEditor);
 			$editorsModel->close();
 			
-			if(!empty($retour))
+			if(!empty($retour)) {
 				$this->giveVar("user",$retour);
+			
+				$postsModel = new PostsModel();
+				$posts = $postsModel->selectByAuthor($retour['name']);
+				$this->giveVar(compact('posts'));
+				$postsCount = $postsModel->countByAuthor($retour['name']);
+				$this->giveVar(compact('postsCount'));
+				$postsModel->close();
+			}
 				
 			$this->display('profil');
 		}
