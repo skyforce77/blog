@@ -51,9 +51,9 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 					      foreach ($comments as $value) {
 					 ?>
 					    <blockquote>
-							<p><?= $value['content'] ?></p>
+							<p style="word-wrap: break-word;"><?= $value->getContent() ?></p>
 							<small>
-								Par <strong><?= $value['author'] ?></strong> le <?= $value['date_creation'] ?>
+								Par <strong><?= $value->getAuthor() ?></strong> le <?= $value->getDateCreation() ?>
 							</small>
 						</blockquote>
 					    <br>

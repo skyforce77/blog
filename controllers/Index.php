@@ -10,6 +10,7 @@
 
 			$categoriesModel = new CategoriesModel();
 			$statsCategories = $categoriesModel->countByName();
+			$categories = $categoriesModel->getAll();
 			$categoriesModel->close();
 			
 			$param = array('order' => 'date_creation DESC');
@@ -52,6 +53,7 @@
 				$nbrPages+=1;
 			
 			$this->giveVar(compact('statsCategories'));
+			$this->giveVar(compact('categories'));
 			$this->giveVar(compact('nbrPages'));
 			$this->giveVar(compact('posts'));
 			$this->display('view');

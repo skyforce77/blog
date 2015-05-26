@@ -14,12 +14,11 @@
               <select name="categorie" >
                 <option>Toutes les catégories</option>
                 <?php
-                  $categories = Layouts::getCategories();
                   foreach ($categories as $value) {
                     $selected = '';
-                    if(isset($_GET['categorie']) && $_GET['categorie'] == $value['id'])
+                    if(isset($_GET['categorie']) && $_GET['categorie'] == $value->getId())
                       $selected = 'selected';
-                    echo '<option value="'.$value['id'].'"'.$selected.'>'.$value['name'].'</option>';
+                    echo '<option value="'.$value->getId().'"'.$selected.'>'.$value->getName().'</option>';
                   }
 
                 ?>

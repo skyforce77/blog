@@ -9,7 +9,6 @@
 
 			$postsModel = new PostsModel();
 			$post = $postsModel->selectById($idPost);
-			$temp = new CommentsModel();
 			$postResult = array();
 			$canEdit = 0;
 			if(!empty($post->getId())) {
@@ -21,7 +20,7 @@
 
 			$this->giveVar(compact('canEdit'));
 
-			$commentsModel = new CommentsModel('comments');
+			$commentsModel = new CommentsModel();
 
 
 			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])){
@@ -60,7 +59,7 @@
 					}
 				}
 			}
-			$comments = $commentsModel->select(array(), array('conditions' => 'posts_id = '.intval($idPost.'')));
+			$comments = $commentsModel->getById($idPost);
 			$postsModel->close();
 			$commentsModel->close();
 

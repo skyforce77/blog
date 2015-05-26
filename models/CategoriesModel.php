@@ -20,15 +20,8 @@ class CategoriesModel extends Model{
 	public function getAll(){
 		$query = $this->link->prepare("SELECT * FROM categories ORDER BY name ASC;");
 		$query->execute();
-		$tmp = $query->fetchAll();
-		$ret=array();
-		foreach ($tmp as $value) {
-			$object = new CategoriesModel();
-			$object->setId($value['id']);
-			$object->setName($value['name']);
-			array_push($ret, $object);
-		}
-		return $ret;
+		$query->setFetchMode(PDO::FETCH_CLASS, 'CategoriesModel');
+		return $query->fetchAll();
 	}
 
 	public function getId(){
