@@ -7,10 +7,10 @@
 			<h1 class="text-light">Profil</h1>
 			<hr class="bg-teal">
 			<br>
-			<h2><?= ucfirst($user['name']) ?></h2><br>
+			<h2><?= ucfirst($user->getName()) ?></h2><br>
 			<h3><?php
-				if((isset($_SESSION['editor_id']) && $_SESSION['editor_id'] == $user['id']) || $user['public'] == 1) {
-					echo $user['mail'];
+				if($user->isPublic()) {
+					echo $user->getMail();
 				} else {
 					echo 'Mail privé';
 				}

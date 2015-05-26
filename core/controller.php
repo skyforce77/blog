@@ -17,21 +17,22 @@ class Controller{
 		if(isset($_SESSION['editor_id']) && intval($_SESSION['editor_id']) != 0){ //Vérification id
 		
 			//utilisation de la fonction sqlquery, on sait qu'on aura qu'un résultat car l'id d'un membre est unique.
-			$editorModel = new Model('editors');
-			$retour = $editorModel->select(array(), array('conditions' => 'id = '.intval($_SESSION['editor_id'].'')));
+			require_once(ROOT.'models/EditorsModel.php');
+			$editorModel = new EditorsModel();
+			$user = $editorModel->getUserById($_SESSION['editor_id']);
 
 			//Si la requête a un résultat (c'est-à-dire si l'id existe dans la table membres)
-			if(isset($retour['name']) && $retour['editor_name'] != ''){
+			if(!empty($retour) && $retour['editor_name'] != ''){
 				if($_SESSION['editor_password'] != $retour['password']){
 					session_unset();
 					session_destroy();				
 					return 0;	
 				}	
 				//Validation de la session.
-				$_SESSION['editor_id'] = $retour['id'];
-				$_SESSION['editor_name'] = $retour['name'];
-				$_SESSION['editor_mail'] = $retour['mail'];
-				$_SESSION['editor_public'] = $retour['public'];
+				$_SESSION['editor_id'] = $user->getId();
+				$_SESSION['editor_name'] = $user->getName();
+				$_SESSION['editor_mail'] = $user->getMail();
+				$_SESSION['editor_public'] = $user->isPublic();
 			}
 			return 1;
 		}

@@ -13,7 +13,7 @@ class CommentsModel extends Model{
 		parent::__construct('comments');
 	}
 
-	public function getById($id){
+	public function getByPostId($id){
 		$sql = "SELECT * FROM ".$this->table." WHERE posts_id = :id";
 		$query = $this->link->prepare($sql);
 		$query->bindParam(':id', $id, PDO::PARAM_INT);

@@ -32,7 +32,7 @@ $postResult[0] == 1 ? "alert" : "success" ?>',
 					<?= html::link('<span class="mif-pencil"></span> Editer', array('controller'=>'Posts', 'view'=>'edit', 'params'=>$post->getId()), array('class'=>'button')) ?>
 					<?= html::link('<span class="mif-bin"></span> Supprimer', array('controller'=>'Posts', 'view'=>'delete', 'params'=>$post->getId()), array('class'=>'button')) ?>
 				<?php else: ?>
-					<?= html::link('<span class ="author text-small"><span class="mif-user"></span> '.$user['name'], array('controller'=>'Editors', 'view'=>'profil', 'params'=>$user['id'])) ?>
+					<?= html::link('<span class ="author text-small"><span class="mif-user"></span> '.$user->getName(), array('controller'=>'Editors', 'view'=>'profil', 'params'=>$user->getId())) ?>
 				<?php endif ?>
 		      </div>
 		    </div>

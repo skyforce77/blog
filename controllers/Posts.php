@@ -5,10 +5,11 @@
 			require_once(ROOT.'models/CommentsModel.php');
 			require_once(ROOT.'models/EditorsModel.php');
 
-			$postResult = null;
-
 			$postsModel = new PostsModel();
 			$post = $postsModel->selectById($idPost);
+			$commentsModel = new CommentsModel();
+			$comments = $commentsModel->getByPostId($idPost);
+
 			$postResult = array();
 			$canEdit = 0;
 			if(!empty($post->getId())) {
@@ -19,9 +20,6 @@
 			}
 
 			$this->giveVar(compact('canEdit'));
-
-			$commentsModel = new CommentsModel();
-
 
 			if(isset($_POST['mail']) && isset($_POST['pseudo']) && isset($_POST['text'])){
 				$message = "";
@@ -59,7 +57,7 @@
 					}
 				}
 			}
-			$comments = $commentsModel->getById($idPost);
+
 			$postsModel->close();
 			$commentsModel->close();
 

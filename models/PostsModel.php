@@ -9,7 +9,7 @@ class PostsModel extends Model{
 	private $author;
 	private $date_creation;
 	private $categories;
-	private $nbrComments;
+	private $nbr_comments;
 
 
 	function __construct(){
@@ -32,66 +32,30 @@ class PostsModel extends Model{
 		}
 		
 		$query = $this->link->prepare($sql);
-		if(!empty($where))
+		if(!empty($where)){
 			$query->bindParam(':where', $where, PDO::PARAM_INT);
+		}
 		$query->bindParam(':left', $left_limit, PDO::PARAM_INT);
 		$query->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$query->execute();
-		$tmp = $query->fetchAll();
-		$ret=array();
-		foreach ($tmp as $value) {
-			$object = new PostsModel();
-			$object->setId($value['id']);
-			$object->setTitle($value['title']);
-			$object->setContent($value['content']);
-			$object->setSummary($value['summary']);
-			$object->setAuthor($value['author']);
-			$object->setDateCreation($value['date_creation']);
-			$object->setCategories($value['categories']);
-			$object->setNbrComments($value['nbr_comments']);
-			array_push($ret, $object);
-		}
-		return $ret;
+		$query->setFetchMode(PDO::FETCH_CLASS, 'PostsModel');
+		return $query->fetchAll();
 	}
 
 	public function selectById($id){
 		$sql = 'select * from posts_view where id = :id';
 		$query = $this->link->prepare($sql);
 		$query->execute(array(':id' => $id));
-		$tmp = $query->fetchAll();
-		$object = new PostsModel();
-		foreach ($tmp as $value) {			
-			$object->setId($value['id']);
-			$object->setTitle($value['title']);
-			$object->setContent($value['content']);
-			$object->setSummary($value['summary']);
-			$object->setAuthor($value['author']);
-			$object->setDateCreation($value['date_creation']);
-			$object->setCategories($value['categories']);
-			$object->setNbrComments($value['nbr_comments']);
-		}
-		return $object;
+		$query->setFetchMode(PDO::FETCH_CLASS, 'PostsModel');
+		return $query->fetch();
 	}
 
 	public function selectByAuthor($author){
 		$sql = 'select * from posts_view where author = :author';
 		$query = $this->link->prepare($sql);
 		$query->execute(array(':author' => $author));
-		$tmp = $query->fetchAll();
-		$array = array();
-		foreach ($tmp as $value) {
-			$object = new PostsModel();		
-			$object->setId($value['id']);
-			$object->setTitle($value['title']);
-			$object->setContent($value['content']);
-			$object->setSummary($value['summary']);
-			$object->setAuthor($value['author']);
-			$object->setDateCreation($value['date_creation']);
-			$object->setCategories($value['categories']);
-			$object->setNbrComments($value['nbr_comments']);
-			array_push($array,$object);
-		}
-		return $array;
+		$query->setFetchMode(PDO::FETCH_CLASS, 'PostsModel');
+		return $query->fetchAll();
 	}
 
 	public function countByAuthor($author){
@@ -299,11 +263,11 @@ class PostsModel extends Model{
 	}
 
 	public function getNbrComments(){
-		return $this->nbrComments;
+		return $this->nbr_comments;
 	}
 
 	public function setNbrComments($nbrComments){
-		$this->nbrComments = $nbrComments;
+		$this->nbr_comments = $nbrComments;
 	}
 }
 

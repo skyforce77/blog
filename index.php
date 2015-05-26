@@ -25,7 +25,6 @@ if(isset($_GET['p']) && !empty($_GET['p'])){
 
 require_once(ROOT.'core/model.php');
 require_once(ROOT.'core/controller.php');
-require_once(ROOT.'controllers/Layouts.php');
 require_once(ROOT.'core/helper.php');
 require_once(ROOT.'controllers/'.$controller.'.php');
 

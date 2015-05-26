@@ -10,10 +10,11 @@ class CategoriesModel extends Model{
 	}
 
 	public function countByName(){
-		$query = $this->link->prepare("SELECT name, (select count(*) from posts_categories where categories_id = categories.id) AS count 
+		$query = $this->link->prepare("SELECT name, (select count(*) from posts_categories where categories_id = categories.id) AS nbrPosts 
 			FROM categories 
 			LEFT JOIN posts_categories ON categories.id = posts_categories.categories_id group by name order by name ASC;");
 		$query->execute();
+		$query->setFetchMode(PDO::FETCH_CLASS, 'CategoriesModel');
 		return $query->fetchAll();
 	}
 

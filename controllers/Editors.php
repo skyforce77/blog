@@ -24,10 +24,10 @@
 				$editorsModel->close();
 
 				if(!empty($retour)) {
-					$_SESSION['editor_id'] = $retour['id'];
-					$_SESSION['editor_name'] = $retour['name'];
-					$_SESSION['editor_email'] = $retour['mail'];
-					$_SESSION['editor_public'] = $retour['public'];
+					$_SESSION['editor_id'] = $retour->getId();
+					$_SESSION['editor_name'] = $retour->getName();
+					$_SESSION['editor_email'] = $retour->getMail();
+					$_SESSION['editor_public'] = $retour->isPublic();
 					$login_state = 0;
 				} else {
 					$login_state = 1;
@@ -85,6 +85,9 @@
 				else if($editorsModel->pseudoExist($login) == true){
 					$postResult = array(1, "Ce pseudo est déjà pris.");
 				}
+				else if($editorsModel->mailExist($mail) == true){
+					$postResult = array(1, "Un compte utilise déjà cette adresse mail.");
+				}
 				else{
 					if($editorsModel->addEditor($login, $passwd, $mail, $public)==false){
 						$postResult = array(1, "Erreur dans la base de donnée. Réessayez plus tard.");
@@ -100,18 +103,6 @@
 			$this->display('signIn');
 		}
 
-		public function edit(){
-			
-			//On verifie que l'utilisateur est connecté
-			// On verifie que c'est le proprio du profil
-			$this->display('edit');
-		}
-
-		public function delete(){
-			
-			//On verifie que l'utilisateur est connecté
-		}
-
 		public function profil($idEditor = 0){
 			require_once(ROOT.'models/EditorsModel.php');
 			require_once(ROOT.'models/PostsModel.php');
@@ -123,9 +114,9 @@
 				$this->giveVar("user",$retour);
 			
 				$postsModel = new PostsModel();
-				$posts = $postsModel->selectByAuthor($retour['name']);
+				$posts = $postsModel->selectByAuthor($retour->getName());
 				$this->giveVar(compact('posts'));
-				$postsCount = $postsModel->countByAuthor($retour['name']);
+				$postsCount = $postsModel->countByAuthor($retour->getName());
 				$this->giveVar(compact('postsCount'));
 				$postsModel->close();
 			}

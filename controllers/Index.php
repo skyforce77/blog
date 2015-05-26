@@ -5,9 +5,6 @@
 			require_once(ROOT.'models/PostsModel.php');
 			require_once(ROOT.'models/CategoriesModel.php');
 
-			$sessionStatu = controller::check_session();
-			$postsModel = new PostsModel();
-
 			$categoriesModel = new CategoriesModel();
 			$statsCategories = $categoriesModel->countByName();
 			$categories = $categoriesModel->getAll();
@@ -45,8 +42,10 @@
 				$where = intval($_GET['categorie']);
 			}
 			
+			$postsModel = new PostsModel();
 			$posts = $postsModel->getPosts($where, $order, $left_limit, $offset);			
 			$nbrPosts = $postsModel->countPosts($where);
+			$postsModel->close();
 			
 			$nbrPages = intval($nbrPosts/$offset);
 			if(intval($nbrPosts/$offset)>0 && $nbrPosts%$offset>0)

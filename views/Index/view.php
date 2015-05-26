@@ -44,7 +44,7 @@
             <?php
 
               foreach($statsCategories as $value) {
-                echo '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td></tr>';
+                echo '<tr><td>'.$value->getName().'</td><td>'.$value->getNbrPosts().'</td></tr>';
               }
             ?>
           </table>
@@ -54,10 +54,8 @@
     <!-- fin tab -->
   </div>
 
-  <?php
-    $categories = Layouts::getCategories();
-    
-      if (count($posts) == 0){ ?>
+  <?php    
+      if (empty($posts)){ ?>
         <br>
         <h3><span class="mif-warning fg-orange"></span> Aucun post dans cette catégorie</h3>
   <?php    } else {
