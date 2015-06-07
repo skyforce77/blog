@@ -2,9 +2,7 @@
 	class Index extends Controller{
 		
 		public function view(){
-			require_once(ROOT.'models/PostsModel.php');
-			require_once(ROOT.'models/CategoriesModel.php');
-
+			
 			$categoriesModel = new CategoriesModel();
 			$statsCategories = $categoriesModel->countByName();
 			$categories = $categoriesModel->getAll();

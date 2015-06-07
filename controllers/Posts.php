@@ -1,10 +1,6 @@
 <?php
 	class Posts extends Controller{
 		public function view($idPost){
-			require_once(ROOT.'models/PostsModel.php');
-			require_once(ROOT.'models/CommentsModel.php');
-			require_once(ROOT.'models/EditorsModel.php');
-
 			$postsModel = new PostsModel();
 			$post = $postsModel->selectById($idPost);
 			$commentsModel = new CommentsModel();
@@ -75,10 +71,6 @@
 		}
 
 		public function edit($idPost){
-			require_once(ROOT.'models/PostsModel.php');
-			require_once(ROOT.'models/CommentsModel.php');
-			require_once(ROOT.'models/CategoriesModel.php');
-
 			$catModel = new CategoriesModel();
 			$categories = $catModel->getAll();
 			$catModel->close();
@@ -152,7 +144,6 @@
 		}
 
 		public function delete($idPost){
-			require_once(ROOT.'models/PostsModel.php');
 			$postsModel = new PostsModel();
 			$result = $postsModel->selectById($idPost);
 			$author = null;
@@ -182,8 +173,6 @@
 		}
 
 		public function add(){
-			require_once(ROOT.'models/CategoriesModel.php');
-			require_once(ROOT.'models/PostsModel.php');
 			$catModel = new CategoriesModel();
 			$categories = $catModel->getAll();
 			$catModel->close();

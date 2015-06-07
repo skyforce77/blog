@@ -14,7 +14,6 @@
 		public function login(){
 			$login_state = 3;
 			if(isset($_POST['login']) && isset($_POST['passwd'])) {
-				require_once(ROOT.'models/EditorsModel.php');
 				$editorsModel = new EditorsModel();
 
 				$passwd = md5($_POST['passwd']);
@@ -44,7 +43,6 @@
 		}
 
 		public function signIn(){
-			require_once(ROOT.'models/EditorsModel.php');
 			$editorsModel = new EditorsModel();
 			//On verifie que l'utilisateur est déconnecté
 			$postResult = array();
@@ -104,8 +102,6 @@
 		}
 
 		public function profil($idEditor = 0){
-			require_once(ROOT.'models/EditorsModel.php');
-			require_once(ROOT.'models/PostsModel.php');
 			$editorsModel = new EditorsModel();
 			$retour = $editorsModel->getUserById($idEditor);
 			$editorsModel->close();

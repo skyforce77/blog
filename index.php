@@ -28,6 +28,10 @@ require_once(ROOT.'core/controller.php');
 require_once(ROOT.'core/helper.php');
 require_once(ROOT.'controllers/'.$controller.'.php');
 
+function __autoload($class) {
+    include ROOT.'models/'.$class.'.php';
+}
+
 controller::check_session();
 
 $instance = new $controller();
