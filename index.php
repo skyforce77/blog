@@ -1,14 +1,11 @@
 <?php
 session_start();
-define('ROOT', '');//A remplacer par $_SERVER['SCRIPT_NAME'] en cas de problème
-define('WEBROOT', '');
+define('ROOT', '');//A remplacer par $_SERVER["DOCUMENT_ROOT"] en cas de problème
+define('WEBROOT', '/~bruyer/blog/');
 
 $action = 'view';
 $controller = 'Index';
 $get = null;
-
-
-
 
 /* Récupération des paramètres de l'URL */
 if(isset($_GET['p']) && !empty($_GET['p'])){

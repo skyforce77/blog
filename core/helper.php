@@ -20,14 +20,15 @@ class html{
 
 	public static function link($text, $link, $options = null){
 		$string = '';
-		if(is_array($link) && array_key_exists('controller', $link) && array_key_exists('view', $link)){
-			$temp = WEBROOT."index.php?p=".$link['controller'].'/'.$link['view'];
+		if($link == null) {
+			$link = WEBROOT;
+		} else if(is_array($link) && array_key_exists('controller', $link) && array_key_exists('view', $link)){
+			$temp = WEBROOT.$link['controller'].'/'.$link['view'];
 			if(array_key_exists('params', $link)){
 				$temp .= '/'.$link['params'];
 			}
 			$link = $temp;
-		}
-		else{
+		} else{
 			if(strpos($link, 'http://')==false){
 				$link = 'http://'.$link;
 			}
