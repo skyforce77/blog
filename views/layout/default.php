@@ -17,6 +17,7 @@
 			<div class="app-bar" data-role="appbar">
 				<?php 
 					echo html::link('<span class="mif-windows"></span> Accueil', null, array('class'=>'app-bar-element'));
+					echo html::link('Contact', array('controller'=>'Index', 'view'=>'contact'), array('class'=>'app-bar-element place-right'));
 					if(isset($_SESSION['editor_id'])) {
 						echo html::link('<span class="mif-user"></span> '.ucfirst($_SESSION['editor_name']), array('controller'=>'Editors', 'view'=>'login'), array('class'=>'app-bar-element place-right'));
 					} else {

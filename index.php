@@ -1,7 +1,7 @@
 <?php
 session_start();
-define('ROOT', '');//A remplacer par $_SERVER["DOCUMENT_ROOT"] en cas de problème
-define('WEBROOT', '/~bruyer/blog/');
+define('ROOT', '');
+define('WEBROOT', str_replace('index.php', '', $_SERVER['PHP_SELF']));
 
 $action = 'view';
 $controller = 'Index';
@@ -37,9 +37,8 @@ if(method_exists($controller, $action)){
 		$instance->$action();
 	else
 		$instance->$action($get);
+}else{
+	require('views/errors/404.html');
+	die();
 }
-else
-	require_once(ROOT.'404.html');
-
-
 ?>

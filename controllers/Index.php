@@ -67,5 +67,9 @@
 			group by posts.id 
 			*/
 		}
+
+		public function contact(){
+			$this->display("contact");
+		}
 	}
 ?>
