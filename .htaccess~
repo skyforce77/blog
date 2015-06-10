@@ -3,7 +3,7 @@
 RewriteEngine On
 
 # Adresse de base de réécriture 
-
+RewriteBase /blog
 
 # Règles
 RewriteCond %{SCRIPT_FILENAME} !-f
