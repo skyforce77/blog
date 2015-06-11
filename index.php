@@ -19,8 +19,13 @@ if(isset($_GET['p']) && !empty($_GET['p'])){
 	}
 }
 
+if(!file_exists(ROOT.'core/config.php') || !file_exists(ROOT.'.htaccess')){
+	$controller = 'Index';
+	$action = 'config';
+}else{	
+	require_once(ROOT.'core/model.php');
+}
 
-require_once(ROOT.'core/model.php');
 require_once(ROOT.'core/controller.php');
 require_once(ROOT.'core/helper.php');
 require_once(ROOT.'controllers/'.$controller.'.php');

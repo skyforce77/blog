@@ -71,5 +71,62 @@
 		public function contact(){
 			$this->display("contact");
 		}
+
+		public function config(){
+			$error = null;
+			$success = null;
+			if(!file_exists(ROOT.'.htaccess')){
+			$file = fopen(ROOT.'.htaccess', 'w');
+						$string = '# Mise en place de la ré-écriture 
+#Options +FollowSymLinks
+RewriteEngine On
+
+# Adresse de base de réécriture 
+RewriteBase '.WEBROOT.'
+
+
+# Règles
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule (.*) index.php?p=$1 [QSA,L]';
+							fwrite($file, $string);
+						}
+
+			if(!file_exists(ROOT.'core/config.php')){
+				if (isset($_POST['host']) && isset($_POST['user']) && isset($_POST['password']) && isset($_POST['dbname'])){
+					$host = htmlspecialchars($_POST['host']);
+					$user = htmlspecialchars($_POST['user']);
+					$password = htmlspecialchars($_POST['password']);
+					$dbname = htmlspecialchars($_POST['dbname']);
+
+					if(empty($host)){
+						$error = "Le nom d'hote est inexistant.";
+					}else if(empty($user)){
+						$error = "Le nom d'utilisateur est inexistant.";
+					}else if(empty($dbname)){
+						$error = "Le nom de la base de donnée est inexistant.";
+					}else{
+						$file = fopen(ROOT.'core/config.php', 'w');
+							$string = "<?php
+											\$DBConfig = array(
+												'host'=>'".$host."',
+												'user'=>'".$user."',
+												'password'=>'".$password."',
+												'dbname'=>'".$dbname."'
+												);
+										?>";
+							fwrite($file, $string);
+						fclose($file);
+						
+						$success = "Le fichier de config a été créé avec succès. Vous pouvez cliquez sur Accueil en haut à gauche pour commencer à utiliser le blog.";
+					}
+				}
+			}else{
+				$error = "Le fichier de configuration existe déjà !<br> Supprimez le pour en créer un nouveau.";
+			}
+			$this->giveVar(compact('error'));
+			$this->giveVar(compact('success'));
+			$this->display("config");
+		}
 	}
 ?>

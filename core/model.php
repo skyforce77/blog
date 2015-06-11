@@ -16,6 +16,7 @@ class Model{
 			$this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		} catch (PDOException $e) {
 		    print_r("Erreur !: " . $e->getMessage() . "<br/>");
+		    print_r("Supprimez le fichier de configuration <strong>core/config.php</strong> puis actualisez la page.");
 		    $this->link = null;
 		    die();
 		}

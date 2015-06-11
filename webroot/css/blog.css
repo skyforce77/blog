@@ -23,3 +23,36 @@
 .commentaire-area {
 	width: 100%;
 }
+
+.error_message{
+	display: block;
+	clear: both;
+	background: #E4A0A0;
+	color : #B02B2B;
+	padding: 1%;
+	border : 1px solid #B02B2B;
+	margin: 10px 0;
+	font-family: Arial;
+}
+
+.warning_message{
+	display: block;
+	clear: both;
+	background: #FFDE90;
+	color : #E8A304;
+	padding: 1%;
+	border : 1px solid #E8A304;
+	margin: 10px 0;
+	font-family: Arial;
+}
+
+.success_message{
+	display: block;
+	clear: both;
+	background: #AFE19A;
+	color : #4E9A2D;
+	padding: 1%;
+	border : 1px solid #4E9A2D;
+	margin: 10px 0;
+	font-family: Arial;
+}
