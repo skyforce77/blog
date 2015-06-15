@@ -19,15 +19,19 @@ if(isset($_GET['p']) && !empty($_GET['p'])){
 	}
 }
 
+require_once(ROOT.'core/controller.php');
+require_once(ROOT.'core/helper.php');
+
 if(!file_exists(ROOT.'core/config.php') || !file_exists(ROOT.'.htaccess')){
 	$controller = 'Index';
 	$action = 'config';
-}else{	
+	require_once(ROOT.'controllers/'.$controller.'.php');
+	$instance = new $controller();
+	$instance->$action();
+	die();
+}else{
 	require_once(ROOT.'core/model.php');
 }
-
-require_once(ROOT.'core/controller.php');
-require_once(ROOT.'core/helper.php');
 
 
 if(file_exists(ROOT.'controllers/'.$controller.'.php')){

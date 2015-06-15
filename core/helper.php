@@ -3,12 +3,12 @@
 class html{
 
 	public static function favicon($name){
-		$link = ROOT."webroot/images/".$name;	
+		$link = WEBROOT."webroot/images/".$name;	
 		return "<link rel=\"icon\" type=\"image/png\" href=\"".$link."\" >";
 	}
 
 	public static function image($link, $options = null){
-		$link = ROOT."webroot/images/".$name;
+		$link = WEBROOT."webroot/images/".$name;
 		$string = "";
 		if(is_array($options)){
 			foreach ($options as $key => $value){

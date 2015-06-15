@@ -29,7 +29,7 @@
 				</div>
 				<br>
 				<div class="input-control text">
-					<input type="text" name="password" placeholder="Mot de passe">
+					<input type="password" name="password" placeholder="Mot de passe">
 				</div>
 				<br>
 				<div class="input-control text">
