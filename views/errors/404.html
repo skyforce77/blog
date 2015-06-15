@@ -1,3 +1,24 @@
-<div class="container page-content">
-  <h1>Erreur 404</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="theme-color" content="#0072c6">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="icon" type="image/png" href="webroot/images/favicon.png" >		<link href="/blog/webroot/css/metro.css" rel="stylesheet" type="text/css"  />		<link href="/blog/webroot/css/metro-icons.css" rel="stylesheet" type="text/css"  />		<link href="/blog/webroot/css/blog.css" rel="stylesheet" type="text/css"  />		<script type="text/javascript" src="/blog/webroot/js/jquery.js" > </script>		<script type="text/javascript" src="/blog/webroot/js/metro.js" > </script>		<title>Blog</title>
+	</head>
+	<body>
+		<header>
+			<div class="app-bar" data-role="appbar">
+				<a href="/blog/"  class="app-bar-element" ><span class="mif-windows"></span> Accueil</a><a href="/blog/Index/contact"  class="app-bar-element place-right" >Contact</a><a href="/blog/Editors/login"  class="app-bar-element place-right" >Accès rédacteur</a>
+
+			</div>
+		</header>
+<div>
+	<br>
+	<br>
+	<div class="container page-content">
+  	<h1 class="leader">Erreur 404</h1>
+  	<p>L'URL <strong><?= $_SERVER["REQUEST_URI"] ?></strong>	 n'existe pas!</p>
+  	<a href="<?= $_SERVER["HTTP_REFERER"]  ?>" class="button">Page précédente</a>
+  	<a href="/blog/" class="button info fg-white" >Accueil</a>
 </div>

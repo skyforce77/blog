@@ -42,7 +42,7 @@ class html{
 	}
 
 	public static function javascript($name){
-		$link = ROOT."webroot/js/".$name;
+		$link = WEBROOT."webroot/js/".$name;
 		return "<script type=\"text/javascript\" src=\"".$link."\" > </script>";
 	}
 

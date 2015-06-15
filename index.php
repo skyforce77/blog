@@ -28,15 +28,20 @@ if(!file_exists(ROOT.'core/config.php') || !file_exists(ROOT.'.htaccess')){
 
 require_once(ROOT.'core/controller.php');
 require_once(ROOT.'core/helper.php');
-require_once(ROOT.'controllers/'.$controller.'.php');
+
+
+if(file_exists(ROOT.'controllers/'.$controller.'.php')){
+	require_once(ROOT.'controllers/'.$controller.'.php');
+	$instance = new $controller();
+}
 
 function __autoload($class) {
-    include ROOT.'models/'.$class.'.php';
+	if(file_exists(ROOT.'models/'.$class.'.php'))
+    	include ROOT.'models/'.$class.'.php';
 }
 
 controller::check_session();
 
-$instance = new $controller();
 if(method_exists($controller, $action)){
 	if($get == null)
 		$instance->$action();
@@ -44,6 +49,5 @@ if(method_exists($controller, $action)){
 		$instance->$action($get);
 }else{
 	require('views/errors/404.html');
-	die();
 }
 ?>
