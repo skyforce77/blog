@@ -5,6 +5,10 @@
 		Vous n'aurez qu'à modifier le chemin jusqu'a la racine du blog à la ligne "RewriteBase" en cas de problème
 	</div>
 
+	<div class="warning_message">Pour créer et remplir votre base de donnée vous pouvez utiliser le fichier 
+		<a href="<?= WEBROOT ?>/blog.sql"> blog.sql</a>
+	</div>
+
 	<div class="warning_message">Tout les champs sont obligatoirs sauf celui du mot de passe<br>
 		Si vous n'avez pas de mot de passe laissez le champ vide.
 	</div>
